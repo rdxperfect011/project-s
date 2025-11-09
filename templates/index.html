@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- HERO SECTION -->
+<section class="relative overflow-hidden bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 text-white rounded-2xl shadow-lg py-16 md:py-24 px-6 md:px-12 animate-fadeIn">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
+    <div class="md:w-1/2 space-y-5 text-center md:text-left">
+      <h2 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight animate-slideInLeft">
+        Welcome to <span class="text-yellow-300">Nav Yug Higher Secondary School</span>
+      </h2>
+      <p class="text-blue-100 text-lg animate-fadeIn delay-200">
+        Empowering students to achieve academic excellence and holistic growth through innovation, integrity, and inspiration.
+      </p>
+      <div class="flex flex-wrap justify-center md:justify-start gap-4 pt-4">
+        <a href="{{ url_for('fee_form') }}" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-6 py-3 rounded-lg font-semibold shadow-md transform hover:-translate-y-1 hover:scale-105 transition-all duration-300">
+          Pay Fees Online
+        </a>
+        <a href="{{ url_for('about') }}" class="border border-white text-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-700 font-semibold transform hover:-translate-y-1 hover:scale-105 transition-all duration-300">
+          Learn More
+        </a>
+      </div>
+    </div>
+
+    <div class="md:w-1/2 text-center">
+      <img src="https://img.freepik.com/free-vector/education-concept-illustration_114360-6270.jpg?t=st=1731187223~exp=1731190823~hmac=ecd4207d2d228621a1e2ee040602f22f77c7d420bbf6e557314a50b29ce2c53a&w=740" 
+           alt="School illustration" 
+           class="w-full max-w-md mx-auto rounded-xl shadow-2xl animate-float">
+    </div>
+  </div>
+</section>
+
+<!-- INFO CARDS -->
+<section class="max-w-6xl mx-auto py-20 grid md:grid-cols-3 gap-8 px-6 animate-fadeUp">
+  <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+    <div class="text-4xl text-blue-700 mb-3">🎓</div>
+    <h3 class="font-bold text-xl text-blue-800 mb-2">Academic Excellence</h3>
+    <p class="text-gray-600 text-sm leading-relaxed">
+      We provide high-quality education with a focus on innovative learning, discipline, and excellence in every subject.
+    </p>
+  </div>
+
+  <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+    <div class="text-4xl text-blue-700 mb-3">🤝</div>
+    <h3 class="font-bold text-xl text-blue-800 mb-2">Parent Engagement</h3>
+    <p class="text-gray-600 text-sm leading-relaxed">
+      Stay informed with fee tracking, grade updates, and direct communication between parents and teachers.
+    </p>
+  </div>
+
+  <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
+    <div class="text-4xl text-blue-700 mb-3">🌱</div>
+    <h3 class="font-bold text-xl text-blue-800 mb-2">Holistic Growth</h3>
+    <p class="text-gray-600 text-sm leading-relaxed">
+      Our environment nurtures creativity, teamwork, sportsmanship, and lifelong learning habits among students.
+    </p>
+  </div>
+</section>
+
+<!-- STATS / ACHIEVEMENTS -->
+<section class="bg-blue-50 py-16">
+  <div class="max-w-6xl mx-auto text-center px-6">
+    <h3 class="text-3xl font-bold text-blue-800 mb-8">Our Achievements</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-blue-700 font-semibold">
+      <div>
+        <p class="text-5xl font-extrabold">25+</p>
+        <p class="text-sm text-gray-600">Years of Excellence</p>
+      </div>
+      <div>
+        <p class="text-5xl font-extrabold">1000+</p>
+        <p class="text-sm text-gray-600">Students Enrolled</p>
+      </div>
+      <div>
+        <p class="text-5xl font-extrabold">95%</p>
+        <p class="text-sm text-gray-600">Board Results</p>
+      </div>
+      <div>
+        <p class="text-5xl font-extrabold">50+</p>
+        <p class="text-sm text-gray-600">Dedicated Teachers</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALL TO ACTION -->
+<section class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 text-white py-16 text-center px-6 animate-fadeInUp">
+  <h3 class="text-3xl md:text-4xl font-extrabold mb-4">Join the Nav Yug Family Today!</h3>
+  <p class="text-blue-100 mb-6">Enroll your child for a brighter, smarter, and more confident future.</p>
+  <a href="{{ url_for('contact') }}" class="bg-yellow-400 text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-500 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300">
+    Contact Us
+  </a>
+</section>
+
+<!-- CUSTOM ANIMATIONS -->
+<style>
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+@keyframes fadeInUp { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+@keyframes fadeUp { from {opacity:0; transform:translateY(40px);} to {opacity:1; transform:translateY(0);} }
+@keyframes slideInLeft { from {opacity:0; transform:translateX(-40px);} to {opacity:1; transform:translateX(0);} }
+@keyframes float { 0%,100% {transform:translateY(0);} 50% {transform:translateY(-10px);} }
+
+.animate-fadeIn { animation: fadeIn 1s ease-in-out; }
+.animate-fadeInUp { animation: fadeInUp 1s ease-in-out; }
+.animate-fadeUp { animation: fadeUp 1.3s ease-in-out; }
+.animate-slideInLeft { animation: slideInLeft 1s ease-in-out; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+</style>
+{% endblock %}

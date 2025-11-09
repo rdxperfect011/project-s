@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-3xl font-bold text-blue-700">Admin Dashboard</h1>
+  <div class="space-x-3">
+    <a href="{{ url_for('admin_students') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Manage Students</a>
+    <a href="{{ url_for('admin_logout') }}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">Logout</a>
+  </div>
+</div>
+
+<!-- Dashboard Summary -->
+<div class="grid md:grid-cols-3 gap-6 mb-10">
+  <div class="bg-white shadow rounded-lg p-5 text-center">
+    <h3 class="text-lg font-semibold text-gray-700">Total Payments</h3>
+    <p class="text-3xl font-bold text-blue-700 mt-2">{{ payments|length }}</p>
+  </div>
+  <div class="bg-white shadow rounded-lg p-5 text-center">
+    <h3 class="text-lg font-semibold text-gray-700">Paid</h3>
+    <p class="text-3xl font-bold text-green-700 mt-2">{{ payments|selectattr('paid')|list|length }}</p>
+  </div>
+  <div class="bg-white shadow rounded-lg p-5 text-center">
+    <h3 class="text-lg font-semibold text-gray-700">Pending</h3>
+    <p class="text-3xl font-bold text-red-700 mt-2">{{ payments|rejectattr('paid')|list|length }}</p>
+  </div>
+</div>
+
+<!-- 🔍 Search & Filter -->
+<form action="{{ url_for('admin_dashboard') }}" method="get" class="flex flex-wrap items-center gap-3 mb-6">
+  <input type="text" name="query" placeholder="Search by student name or roll no..."
+         value="{{ request.args.get('query', '') }}"
+         class="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200"/>
+
+  <select name="filter_class" class="border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+    <option value="">All Classes</option>
+    {% for c in payments|map(attribute='student_class')|unique|list %}
+      <option value="{{ c }}" {% if request.args.get('filter_class') == c %}selected{% endif %}>{{ c }}</option>
+    {% endfor %}
+  </select>
+
+  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Filter</button>
+
+  {% if request.args.get('query') or request.args.get('filter_class') %}
+  <a href="{{ url_for('admin_dashboard') }}" class="bg-gray-300 text-gray-800 px-3 py-2 rounded-lg hover:bg-gray-400 transition">Clear</a>
+  {% endif %}
+</form>
+
+<!-- Fee Payments Table -->
+<div class="bg-white shadow-md rounded-lg p-6 overflow-x-auto">
+  <h2 class="text-xl font-semibold text-gray-700 mb-4">All Fee Payments</h2>
+  {% if payments %}
+  <table class="w-full border-collapse text-sm">
+    <thead>
+      <tr class="bg-blue-100 text-left">
+        <th class="p-2 border">ID</th>
+        <th class="p-2 border">Student</th>
+        <th class="p-2 border">Roll</th>
+        <th class="p-2 border">Class</th>
+        <th class="p-2 border">Parent</th>
+        <th class="p-2 border">Phone</th>
+        <th class="p-2 border">Month</th>
+        <th class="p-2 border">Amount</th>
+        <th class="p-2 border">Receipt</th>
+        <th class="p-2 border">Paid</th>
+        <th class="p-2 border">Submitted</th>
+        <th class="p-2 border">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in payments %}
+      <tr class="hover:bg-gray-50 border-b">
+        <td class="p-2 border">{{ p.id }}</td>
+        <td class="p-2 border">{{ p.student_name }}</td>
+        <td class="p-2 border">{{ p.roll_no }}</td>
+        <td class="p-2 border">{{ p.student_class }}</td>
+        <td class="p-2 border">{{ p.parent_name }}</td>
+        <td class="p-2 border">{{ p.parent_phone }}</td>
+        <td class="p-2 border">{{ p.payment_month }}</td>
+        <td class="p-2 border">₹{{ "%.2f"|format(p.amount) }}</td>
+        <td class="p-2 border">
+          {% if p.receipt_filename %}
+            <a href="{{ url_for('uploaded_file', filename=p.receipt_filename) }}" class="text-blue-600 hover:underline" target="_blank">View</a>
+          {% else %}
+            <span class="text-gray-400">No file</span>
+          {% endif %}
+        </td>
+        <td class="p-2 border">
+          {% if p.paid %}
+            <span class="text-green-600 font-semibold">Yes</span>
+          {% else %}
+            <span class="text-red-600 font-semibold">No</span>
+          {% endif %}
+        </td>
+        <td class="p-2 border">{{ p.submitted_at.strftime("%Y-%m-%d %H:%M") }}</td>
+        <td class="p-2 border space-x-2">
+          {% if not p.paid %}
+          <form action="{{ url_for('admin_mark_paid', payment_id=p.id) }}" method="post" class="inline">
+            <button class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition">Mark Paid</button>
+          </form>
+          {% endif %}
+          <form action="{{ url_for('admin_delete', payment_id=p.id) }}" method="post" class="inline" onsubmit="return confirm('Delete this payment?');">
+            <button class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="text-gray-500 text-center py-6">No payment records found.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

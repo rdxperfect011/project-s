@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{{ title if title else "Nav Yug Higher Secondary School" }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="https://img.icons8.com/color/48/school.png">
+  <style>
+    /* Smooth transitions */
+    html { scroll-behavior: smooth; }
+    .nav-hidden { transform: translateY(-100%); transition: transform 0.4s ease; }
+    .nav-visible { transform: translateY(0); transition: transform 0.4s ease; }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+
+<!-- ======================= NAVBAR ======================= -->
+<header id="navbar" class="fixed w-full top-0 left-0 backdrop-blur-md bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 text-white shadow-lg z-50 nav-visible transition-all duration-500">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-3 md:py-4">
+    <!-- Logo -->
+    <a href="{{ url_for('index') }}" class="flex items-center gap-3 hover:scale-105 transition-transform duration-300">
+      <img src="https://img.icons8.com/color/48/school.png" alt="Logo" class="w-10 h-10">
+      <span class="font-extrabold text-2xl tracking-wide">Nav Yug H.S. School</span>
+    </a>
+
+    <!-- Desktop Links -->
+    <nav class="hidden md:flex items-center space-x-6 font-medium">
+      <a href="{{ url_for('index') }}" class="hover:text-yellow-300 transition">Home</a>
+      <a href="{{ url_for('about') }}" class="hover:text-yellow-300 transition">About</a>
+      <a href="{{ url_for('fee_form') }}" class="hover:text-yellow-300 transition">Pay Fees</a>
+      <a href="{{ url_for('payment_history') }}" class="hover:text-yellow-300 transition">History</a>
+      <a href="{{ url_for('contact') }}" class="hover:text-yellow-300 transition">Contact</a>
+      <a href="{{ url_for('admin_login') }}" class="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition">Admin</a>
+    </nav>
+
+    <!-- Mobile Button -->
+    <button id="menuBtn" class="md:hidden focus:outline-none transition-transform hover:scale-110">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Dropdown -->
+  <div id="mobileMenu" class="hidden flex flex-col md:hidden bg-gradient-to-b from-indigo-700 to-blue-800 px-6 py-4 space-y-2">
+    <a href="{{ url_for('index') }}" class="block hover:text-yellow-300 transition">Home</a>
+    <a href="{{ url_for('about') }}" class="block hover:text-yellow-300 transition">About</a>
+    <a href="{{ url_for('fee_form') }}" class="block hover:text-yellow-300 transition">Pay Fees</a>
+    <a href="{{ url_for('payment_history') }}" class="block hover:text-yellow-300 transition">History</a>
+    <a href="{{ url_for('contact') }}" class="block hover:text-yellow-300 transition">Contact</a>
+    <a href="{{ url_for('admin_login') }}" class="block text-center bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition">Admin</a>
+  </div>
+</header>
+
+<script>
+  // Navbar hide on scroll down, show on scroll up
+  let lastScrollTop = 0;
+  const navbar = document.getElementById("navbar");
+  window.addEventListener("scroll", function() {
+    let scrollTop = window.scrollY;
+    if (scrollTop > lastScrollTop && scrollTop > 60) {
+      navbar.classList.remove("nav-visible");
+      navbar.classList.add("nav-hidden");
+    } else {
+      navbar.classList.remove("nav-hidden");
+      navbar.classList.add("nav-visible");
+    }
+    lastScrollTop = scrollTop;
+  });
+
+  // Mobile menu toggle
+  const menuBtn = document.getElementById("menuBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  menuBtn.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+  });
+</script>
+
+<!-- Spacer for fixed navbar -->
+<div class="h-20"></div>
+
+<!-- ======================= FLASH MESSAGES ======================= -->
+<div class="max-w-4xl mx-auto mt-4">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+      <div class="p-3 rounded mb-3 {% if category=='success' %}bg-green-100 text-green-800{% elif category=='danger' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+        {{ msg }}
+      </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+<!-- ======================= MAIN CONTENT ======================= -->
+<main class="max-w-6xl mx-auto px-4 py-10 min-h-[70vh]">
+  {% block content %}{% endblock %}
+</main>
+
+<!-- ======================= FOOTER ======================= -->
+<footer class="relative bg-gradient-to-r from-indigo-700 via-blue-700 to-purple-700 text-white overflow-hidden mt-10">
+  <div class="absolute top-0 left-0 w-full">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path fill="#ffffff22" d="M0,160L80,165.3C160,171,320,181,480,192C640,203,800,213,960,197.3C1120,181,1280,139,1360,117.3L1440,96L1440,0H0Z"></path>
+    </svg>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto py-12 px-6 grid md:grid-cols-3 gap-8">
+    <div>
+      <h3 class="text-xl font-bold mb-3">Nav Yug Higher Secondary School</h3>
+      <p class="text-blue-100 text-sm leading-relaxed">Empowering minds and shaping future leaders through quality education and innovation.</p>
+    </div>
+
+    <div>
+      <h4 class="text-lg font-semibold mb-3">Quick Links</h4>
+      <ul class="space-y-2 text-blue-100 text-sm">
+        <li><a href="{{ url_for('index') }}" class="hover:text-yellow-300 transition">Home</a></li>
+        <li><a href="{{ url_for('about') }}" class="hover:text-yellow-300 transition">About</a></li>
+        <li><a href="{{ url_for('contact') }}" class="hover:text-yellow-300 transition">Contact</a></li>
+        <li><a href="{{ url_for('fee_form') }}" class="hover:text-yellow-300 transition">Pay Fees</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="text-lg font-semibold mb-3">Connect With Us</h4>
+      <div class="flex space-x-4 text-2xl">
+        <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="hover:text-yellow-300 transition"><i class="fab fa-youtube"></i></a>
+      </div>
+      <p class="text-sm text-blue-100 mt-3">📍 M.P., India<br>✉️ navyugschool@example.com</p>
+    </div>
+  </div>
+
+  <div class="text-center py-4 border-t border-blue-500/50 text-sm text-blue-100">
+    © <span id="year"></span> Nav Yug Higher Secondary School. All Rights Reserved.
+  </div>
+</footer>
+
+<!-- FontAwesome for icons -->
+<script src="https://kit.fontawesome.com/a2d9b5c67e.js" crossorigin="anonymous"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+
+</body>
+</html>
