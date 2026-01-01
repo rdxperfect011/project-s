@@ -1,106 +1,473 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- HERO SECTION -->
-<section class="relative overflow-hidden bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 text-white rounded-2xl shadow-lg py-16 md:py-24 px-6 md:px-12 animate-fadeIn">
-  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
-    <div class="md:w-1/2 space-y-5 text-center md:text-left">
-      <h2 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight animate-slideInLeft">
-        Welcome to <span class="text-yellow-300">Nav Yug Higher Secondary School</span>
+
+<!-- HERO SECTION WITH ADVANCED ANIMATIONS -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Animated background particles -->
+  <div class="absolute inset-0">
+    <div class="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
+    <div class="absolute top-40 right-10 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
+    <div class="absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 4s;"></div>
+  </div>
+
+  <!-- Main content -->
+  <div class="relative z-10 max-w-7xl mx-auto px-6 py-20">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Text content -->
+      <div class="text-center lg:text-left space-y-8 slide-in-left">
+        <div class="space-y-4">
+          <h1 class="text-5xl md:text-7xl font-black leading-tight">
+            <span class="bg-gradient-to-r from-white via-yellow-200 to-pink-200 bg-clip-text text-transparent drop-shadow-lg">
+              Welcome to
+            </span>
+            <br>
+            <span class="bg-gradient-to-r from-yellow-300 via-orange-300 to-pink-300 bg-clip-text text-transparent drop-shadow-lg pulse-animation">
+              Nav Yug School
+            </span>
+          </h1>
+          <p class="text-xl md:text-2xl text-white/90 leading-relaxed font-light">
+            Where <span class="font-semibold text-yellow-300">excellence</span> meets 
+            <span class="font-semibold text-pink-300">innovation</span> in education
+          </p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-8">
+          <a href="{{ url_for('fee_form') }}" class="group relative overflow-hidden bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-8 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-yellow-400/50 transition-all duration-500 hover:scale-110 hover:-translate-y-2">
+            <span class="relative z-10 flex items-center justify-center">
+              <i class="fas fa-credit-card mr-3"></i>
+              Pay Fees Online
+            </span>
+            <div class="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+          </a>
+          
+          <a href="{{ url_for('about') }}" class="group relative glass text-white px-8 py-4 rounded-full font-bold text-lg border-2 border-white/30 hover:border-white/60 transition-all duration-500 hover:scale-110 hover:-translate-y-2 hover:bg-white/20">
+            <span class="relative z-10 flex items-center justify-center">
+              <i class="fas fa-info-circle mr-3"></i>
+              Learn More
+            </span>
+            <div class="absolute inset-0 bg-white/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+          </a>
+        </div>
+
+        <!-- Stats badges -->
+        <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-8">
+          <div class="glass px-4 py-2 rounded-full flex items-center space-x-2 hover-lift">
+            <i class="fas fa-trophy text-yellow-300"></i>
+            <span class="text-white font-semibold">25+ Years</span>
+          </div>
+          <div class="glass px-4 py-2 rounded-full flex items-center space-x-2 hover-lift">
+            <i class="fas fa-users text-green-300"></i>
+            <span class="text-white font-semibold">1000+ Students</span>
+          </div>
+          <div class="glass px-4 py-2 rounded-full flex items-center space-x-2 hover-lift">
+            <i class="fas fa-award text-blue-300"></i>
+            <span class="text-white font-semibold">95% Results</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D Card with image -->
+      <div class="relative slide-in-right">
+        <div class="relative group">
+          <!-- Glow effect -->
+          <div class="absolute -inset-4 bg-gradient-to-r from-yellow-400 to-pink-400 rounded-3xl blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
+          
+          <!-- Main card -->
+          <div class="relative glass rounded-3xl p-8 transform-gpu transition-all duration-700 hover:scale-105 hover:rotate-1">
+            <div class="relative overflow-hidden rounded-2xl">
+              <img src="https://img.freepik.com/free-vector/education-concept-illustration_114360-6270.jpg?t=st=1731187223~exp=1731190823~hmac=ecd4207d2d228621a1e2ee040602f22f77c7d420bbf6e557314a50b29ce2c53a&w=740" 
+                   alt="School Education" 
+                   class="w-full h-auto rounded-2xl shadow-2xl transform transition-transform duration-700 group-hover:scale-110">
+              
+              <!-- Overlay gradient -->
+              <div class="absolute inset-0 bg-gradient-to-t from-purple-900/50 to-transparent rounded-2xl"></div>
+              
+              <!-- Floating elements -->
+              <div class="absolute top-4 right-4 glass px-3 py-1 rounded-full text-white text-sm font-semibold float-animation">
+                <i class="fas fa-star mr-1"></i> Excellence
+              </div>
+              <div class="absolute bottom-4 left-4 glass px-3 py-1 rounded-full text-white text-sm font-semibold float-animation" style="animation-delay: 1s;">
+                <i class="fas fa-graduation-cap mr-1"></i> Learning
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+    <div class="flex flex-col items-center space-y-2">
+      <span class="text-sm font-medium">Scroll to explore</span>
+      <i class="fas fa-chevron-down text-2xl"></i>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES SECTION WITH 3D CARDS -->
+<section class="py-24 px-6 relative">
+  <div class="max-w-7xl mx-auto">
+    <!-- Section header -->
+    <div class="text-center mb-16 slide-in-up">
+      <h2 class="text-4xl md:text-5xl font-black mb-6">
+        <span class="bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-400 bg-clip-text text-transparent">
+          Why Choose Nav Yug?
+        </span>
       </h2>
-      <p class="text-blue-100 text-lg animate-fadeIn delay-200">
-        Empowering students to achieve academic excellence and holistic growth through innovation, integrity, and inspiration.
+      <p class="text-xl text-white/80 max-w-3xl mx-auto">
+        We provide comprehensive education with modern facilities, experienced faculty, and a nurturing environment for holistic development.
       </p>
-      <div class="flex flex-wrap justify-center md:justify-start gap-4 pt-4">
-        <a href="{{ url_for('fee_form') }}" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-6 py-3 rounded-lg font-semibold shadow-md transform hover:-translate-y-1 hover:scale-105 transition-all duration-300">
-          Pay Fees Online
-        </a>
-        <a href="{{ url_for('about') }}" class="border border-white text-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-700 font-semibold transform hover:-translate-y-1 hover:scale-105 transition-all duration-300">
-          Learn More
-        </a>
-      </div>
     </div>
 
-    <div class="md:w-1/2 text-center">
-      <img src="https://img.freepik.com/free-vector/education-concept-illustration_114360-6270.jpg?t=st=1731187223~exp=1731190823~hmac=ecd4207d2d228621a1e2ee040602f22f77c7d420bbf6e557314a50b29ce2c53a&w=740" 
-           alt="School illustration" 
-           class="w-full max-w-md mx-auto rounded-xl shadow-2xl animate-float">
+    <!-- Feature cards grid -->
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Academic Excellence Card -->
+      <div class="group relative hover-lift">
+        <div class="glass rounded-3xl p-8 h-full border-2 border-white/10 hover:border-white/30 transition-all duration-500">
+          <!-- Floating icon -->
+          <div class="relative mb-6">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-2xl blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
+            <div class="relative glass rounded-2xl w-20 h-20 flex items-center justify-center text-4xl transform transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
+              🎓
+            </div>
+          </div>
+          
+          <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-yellow-300 transition-colors duration-300">
+            Academic Excellence
+          </h3>
+          <p class="text-white/70 leading-relaxed mb-6">
+            Our rigorous curriculum and expert faculty ensure students achieve their highest potential with comprehensive learning experiences.
+          </p>
+          
+          <!-- Features list -->
+          <ul class="space-y-2 text-white/80">
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-check-circle text-green-400"></i>
+              <span>Expert Faculty Members</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-check-circle text-green-400"></i>
+              <span>Advanced Curriculum</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-check-circle text-green-400"></i>
+              <span>Research Opportunities</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Parent Engagement Card -->
+      <div class="group relative hover-lift">
+        <div class="glass rounded-3xl p-8 h-full border-2 border-white/10 hover:border-white/30 transition-all duration-500">
+          <!-- Floating icon -->
+          <div class="relative mb-6">
+            <div class="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-400 rounded-2xl blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
+            <div class="relative glass rounded-2xl w-20 h-20 flex items-center justify-center text-4xl transform transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
+              🤝
+            </div>
+          </div>
+          
+          <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-yellow-300 transition-colors duration-300">
+            Parent Engagement
+          </h3>
+          <p class="text-white/70 leading-relaxed mb-6">
+            Stay connected with your child's progress through our comprehensive parent portal and regular communication.
+          </p>
+          
+          <!-- Features list -->
+          <ul class="space-y-2 text-white/80">
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-check-circle text-green-400"></i>
+              <span>Real-time Progress Tracking</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-check-circle text-green-400"></i>
+              <span>Regular Parent Meetings</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-check-circle text-green-400"></i>
+              <span>Digital Communication</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Holistic Growth Card -->
+      <div class="group relative hover-lift">
+        <div class="glass rounded-3xl p-8 h-full border-2 border-white/10 hover:border-white/30 transition-all duration-500">
+          <!-- Floating icon -->
+          <div class="relative mb-6">
+            <div class="absolute inset-0 bg-gradient-to-r from-pink-400 to-orange-400 rounded-2xl blur-xl opacity-30 group-hover:opacity-60 transition-opacity duration-500"></div>
+            <div class="relative glass rounded-2xl w-20 h-20 flex items-center justify-center text-4xl transform transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">
+              🌱
+            </div>
+          </div>
+          
+          <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-yellow-300 transition-colors duration-300">
+            Holistic Growth
+          </h3>
+          <p class="text-white/70 leading-relaxed mb-6">
+            Beyond academics, we focus on character development, sports, arts, and extracurricular activities.
+          </p>
+          
+          <!-- Features list -->
+          <ul class="space-y-2 text-white/80">
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-check-circle text-green-400"></i>
+              <span>Sports & Athletics</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-check-circle text-green-400"></i>
+              <span>Arts & Culture</span>
+            </li>
+            <li class="flex items-center space-x-2">
+              <i class="fas fa-check-circle text-green-400"></i>
+              <span>Leadership Programs</span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- INFO CARDS -->
-<section class="max-w-6xl mx-auto py-20 grid md:grid-cols-3 gap-8 px-6 animate-fadeUp">
-  <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
-    <div class="text-4xl text-blue-700 mb-3">🎓</div>
-    <h3 class="font-bold text-xl text-blue-800 mb-2">Academic Excellence</h3>
-    <p class="text-gray-600 text-sm leading-relaxed">
-      We provide high-quality education with a focus on innovative learning, discipline, and excellence in every subject.
-    </p>
+<!-- ACHVIEVEMENTS SECTION WITH COUNTERS -->
+<section class="py-24 px-6 relative overflow-hidden">
+  <!-- Background pattern -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"60\" height=\"60\" viewBox=\"0 0 60 60\"><g fill=\"none\" fill-rule=\"evenodd\"><g fill=\"%23ffffff\" fill-opacity=\"0.4\"><circle cx=\"30\" cy=\"30\" r=\"2\"/></g></svg>'); background-size: 60px 60px;"></div>
   </div>
 
-  <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
-    <div class="text-4xl text-blue-700 mb-3">🤝</div>
-    <h3 class="font-bold text-xl text-blue-800 mb-2">Parent Engagement</h3>
-    <p class="text-gray-600 text-sm leading-relaxed">
-      Stay informed with fee tracking, grade updates, and direct communication between parents and teachers.
-    </p>
-  </div>
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <div class="text-center mb-16 slide-in-up">
+      <h2 class="text-4xl md:text-5xl font-black mb-6">
+        <span class="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 bg-clip-text text-transparent">
+          Our Achievements
+        </span>
+      </h2>
+      <p class="text-xl text-white/80 max-w-3xl mx-auto">
+        Numbers that speak volumes about our commitment to excellence
+      </p>
+    </div>
 
-  <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300">
-    <div class="text-4xl text-blue-700 mb-3">🌱</div>
-    <h3 class="font-bold text-xl text-blue-800 mb-2">Holistic Growth</h3>
-    <p class="text-gray-600 text-sm leading-relaxed">
-      Our environment nurtures creativity, teamwork, sportsmanship, and lifelong learning habits among students.
-    </p>
-  </div>
-</section>
+    <!-- Stats grid with animated counters -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="text-center group">
+        <div class="glass rounded-3xl p-8 hover-lift border-2 border-white/10 hover:border-yellow-400/50 transition-all duration-500">
+          <div class="text-6xl md:text-7xl font-black text-yellow-300 mb-4 counter" data-target="25">0</div>
+          <div class="text-xl font-semibold text-white mb-2">Years of Excellence</div>
+          <div class="text-white/60">Since 1999</div>
+        </div>
 
-<!-- STATS / ACHIEVEMENTS -->
-<section class="bg-blue-50 py-16">
-  <div class="max-w-6xl mx-auto text-center px-6">
-    <h3 class="text-3xl font-bold text-blue-800 mb-8">Our Achievements</h3>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-blue-700 font-semibold">
-      <div>
-        <p class="text-5xl font-extrabold">25+</p>
-        <p class="text-sm text-gray-600">Years of Excellence</p>
-      </div>
-      <div>
-        <p class="text-5xl font-extrabold">1000+</p>
-        <p class="text-sm text-gray-600">Students Enrolled</p>
-      </div>
-      <div>
-        <p class="text-5xl font-extrabold">95%</p>
-        <p class="text-sm text-gray-600">Board Results</p>
-      </div>
-      <div>
-        <p class="text-5xl font-extrabold">50+</p>
-        <p class="text-sm text-gray-600">Dedicated Teachers</p>
+      <div class="text-center group">
+        <div class="glass rounded-3xl p-8 hover-lift border-2 border-white/10 hover:border-green-400/50 transition-all duration-500">
+          <div class="text-6xl md:text-7xl font-black text-green-300 mb-4 counter" data-target="1000">0</div>
+          <div class="text-xl font-semibold text-white mb-2">Students Enrolled</div>
+          <div class="text-white/60">Current Academic Year</div>
+        </div>
+
+      <div class="text-center group">
+        <div class="glass rounded-3xl p-8 hover-lift border-2 border-white/10 hover:border-blue-400/50 transition-all duration-500">
+          <div class="text-6xl md:text-7xl font-black text-blue-300 mb-4"><span class="counter" data-target="95">0</span>%</div>
+          <div class="text-xl font-semibold text-white mb-2">Board Results</div>
+          <div class="text-white/60">Success Rate</div>
+        </div>
+
+      <div class="text-center group">
+        <div class="glass rounded-3xl p-8 hover-lift border-2 border-white/10 hover:border-purple-400/50 transition-all duration-500">
+          <div class="text-6xl md:text-7xl font-black text-purple-300 mb-4 counter" data-target="50">0</div>
+          <div class="text-xl font-semibold text-white mb-2">Dedicated Teachers</div>
+          <div class="text-white/60">Expert Faculty</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CALL TO ACTION -->
-<section class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700 text-white py-16 text-center px-6 animate-fadeInUp">
-  <h3 class="text-3xl md:text-4xl font-extrabold mb-4">Join the Nav Yug Family Today!</h3>
-  <p class="text-blue-100 mb-6">Enroll your child for a brighter, smarter, and more confident future.</p>
-  <a href="{{ url_for('contact') }}" class="bg-yellow-400 text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-500 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300">
-    Contact Us
-  </a>
+<!-- CALL TO ACTION SECTION -->
+<section class="py-24 px-6 relative">
+  <div class="relative z-10 max-w-4xl mx-auto text-center">
+    <div class="glass rounded-3xl p-12 border-2 border-white/20 hover:border-white/40 transition-all duration-500">
+      <div class="space-y-6">
+        <h2 class="text-4xl md:text-5xl font-black">
+          <span class="bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
+            Join Nav Yug Family Today!
+          </span>
+        </h2>
+        <p class="text-xl text-white/80 leading-relaxed">
+          Take the first step towards a brighter future. Enroll your child for quality education and holistic development.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
+          <a href="{{ url_for('contact') }}" class="group relative overflow-hidden bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-8 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-yellow-400/50 transition-all duration-500 hover:scale-110">
+            <span class="relative z-10 flex items-center">
+              <i class="fas fa-phone mr-3"></i>
+              Contact Us Now
+            </span>
+            <div class="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+          </a>
+          
+          <a href="{{ url_for('schedule_visit') }}" class="group relative glass text-white px-8 py-4 rounded-full font-bold text-lg border-2 border-white/30 hover:border-white/60 transition-all duration-500 hover:scale-110">
+            <span class="relative z-10 flex items-center">
+              <i class="fas fa-calendar mr-3"></i>
+              Schedule Visit
+            </span>
+          </a>
+        </div>
+
+        <!-- Contact info -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
+          <div class="flex items-center justify-center space-x-3 text-white/80">
+            <i class="fas fa-envelope text-yellow-300"></i>
+            <span>navyugschool@example.com</span>
+          </div>
+          <div class="flex items-center justify-center space-x-3 text-white/80">
+            <i class="fas fa-phone text-green-300"></i>
+            <span>+91 12345 67890</span>
+          </div>
+          <div class="flex items-center justify-center space-x-3 text-white/80">
+            <i class="fas fa-map-marker-alt text-blue-300"></i>
+            <span>M.P., India</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- CUSTOM ANIMATIONS -->
+<!-- ADVANCED CUSTOM ANIMATIONS -->
 <style>
-@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-@keyframes fadeInUp { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
-@keyframes fadeUp { from {opacity:0; transform:translateY(40px);} to {opacity:1; transform:translateY(0);} }
-@keyframes slideInLeft { from {opacity:0; transform:translateX(-40px);} to {opacity:1; transform:translateX(0);} }
-@keyframes float { 0%,100% {transform:translateY(0);} 50% {transform:translateY(-10px);} }
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-20px) rotate(-3deg); }
+  66% { transform: translateY(-10px) rotate(3deg); }
+}
 
-.animate-fadeIn { animation: fadeIn 1s ease-in-out; }
-.animate-fadeInUp { animation: fadeInUp 1s ease-in-out; }
-.animate-fadeUp { animation: fadeUp 1.3s ease-in-out; }
-.animate-slideInLeft { animation: slideInLeft 1s ease-in-out; }
-.animate-float { animation: float 3s ease-in-out infinite; }
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-100px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(100px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; }
+.slide-in-left { animation: slideInLeft 1s ease-out; }
+.slide-in-right { animation: slideInRight 1s ease-out; }
+.slide-in-up { animation: slideInUp 1s ease-out; }
+
+/* Counter animation */
+.counter {
+  display: inline-block;
+}
+
+/* 3D transforms */
+.transform-gpu {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-10px) scale(1.05) rotateX(5deg);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+/* Glass enhancement */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Gradient text enhancement */
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Custom scrollbar for sections */
+section::-webkit-scrollbar {
+  width: 8px;
+}
+
+section::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+section::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 4px;
+}
 </style>
+
+<!-- COUNTER ANIMATION SCRIPT -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const counters = document.querySelectorAll('.counter');
+  const speed = 200; // Animation speed
+
+  const animateCounter = (counter) => {
+    const target = +counter.getAttribute('data-target');
+    const increment = target / speed;
+    
+    const updateCounter = () => {
+      const current = +counter.innerText.replace(/[^0-9]/g, '');
+      
+      if (current < target) {
+        counter.innerText = Math.ceil(current + increment);
+        setTimeout(updateCounter, 10);
+      } else {
+        counter.innerText = target;
+      }
+    };
+    
+    updateCounter();
+  };
+
+  // Intersection Observer for counter animation
+  const observerOptions = {
+    threshold: 0.5,
+    rootMargin: '0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const counter = entry.target;
+        animateCounter(counter);
+        observer.unobserve(counter);
+      }
+    });
+  }, observerOptions);
+
+  counters.forEach(counter => {
+    observer.observe(counter);
+  });
+
+  // Parallax effect on scroll
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const parallaxElements = document.querySelectorAll('.animate-float');
+    
+    parallaxElements.forEach((el, index) => {
+      const speed = 0.5 + (index * 0.1);
+      el.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+  });
+});
+</script>
 {% endblock %}

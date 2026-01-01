@@ -1,113 +1,409 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="flex items-center justify-between mb-6">
-  <h1 class="text-3xl font-bold text-blue-700">Admin Dashboard</h1>
-  <div class="space-x-3">
-    <a href="{{ url_for('admin_students') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Manage Students</a>
-    <a href="{{ url_for('admin_logout') }}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">Logout</a>
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <div class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center py-4">
+        <div class="flex items-center space-x-4">
+          <h1 class="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+          <span class="text-sm text-gray-500">Nav Yug Higher Secondary School</span>
+        </div>
+        <div class="flex items-center space-x-3">
+          <a href="{{ url_for('admin_students') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            Manage Students
+          </a>
+          <a href="{{ url_for('admin_visits') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            Manage Visits
+          </a>
+          <a href="{{ url_for('download_csv') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Export CSV
+          </a>
+          <a href="{{ url_for('admin_logout') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+            </svg>
+            Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mb-6 space-y-2">
+          {% for category, message in messages %}
+            <div class="p-4 rounded-md {% if category == 'success' %}bg-green-50 text-green-800 border border-green-200{% elif category == 'danger' %}bg-red-50 text-red-800 border border-red-200{% elif category == 'info' %}bg-blue-50 text-blue-800 border border-blue-200{% else %}bg-yellow-50 text-yellow-800 border border-yellow-200{% endif %}">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  {% if category == 'success' %}
+                    <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                  {% elif category == 'danger' %}
+                    <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    </svg>
+                  {% else %}
+                    <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                    </svg>
+                  {% endif %}
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm font-medium">{{ message }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Dashboard Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-gray-500 truncate">Total Payments</dt>
+                <dd class="text-lg font-semibold text-gray-900">{{ payments|length }}</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-gray-500 truncate">Paid</dt>
+                <dd class="text-lg font-semibold text-green-600">{{ payments|selectattr('paid')|list|length }}</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 bg-red-500 rounded-md p-3">
+              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-gray-500 truncate">Pending</dt>
+                <dd class="text-lg font-semibold text-red-600">{{ payments|rejectattr('paid')|list|length }}</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white overflow-hidden shadow rounded-lg">
+        <div class="p-5">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
+              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-gray-500 truncate">Total Revenue</dt>
+                <dd class="text-lg font-semibold text-gray-900">₹{{ "%.2f"|format(payments|selectattr('paid')|map(attribute='amount')|sum) }}</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+      <form action="{{ url_for('admin_dashboard') }}" method="get" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="md:col-span-2">
+            <label for="query" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+            <input 
+              type="text" 
+              name="query" 
+              id="query"
+              placeholder="Search by student name, roll no, or parent name..."
+              value="{{ request.args.get('query', '') }}"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          
+          <div>
+            <label for="filter_class" class="block text-sm font-medium text-gray-700 mb-1">Class</label>
+            <select 
+              name="filter_class" 
+              id="filter_class"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="">All Classes</option>
+              {% for class in classes %}
+                <option value="{{ class }}" {% if request.args.get('filter_class') == class %}selected{% endif %}>{{ class }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div>
+            <label for="filter_status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+            <select 
+              name="filter_status" 
+              id="filter_status"
+              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="">All Status</option>
+              <option value="paid" {% if request.args.get('filter_status') == 'paid' %}selected{% endif %}>Paid</option>
+              <option value="pending" {% if request.args.get('filter_status') == 'pending' %}selected{% endif %}>Pending</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="flex items-center space-x-3">
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            Search
+          </button>
+          
+          {% if request.args.get('query') or request.args.get('filter_class') or request.args.get('filter_status') %}
+            <a href="{{ url_for('admin_dashboard') }}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400 transition">
+              <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+              Clear Filters
+            </a>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+
+    <!-- Payments Table -->
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900">Fee Payments</h2>
+      </div>
+      
+      {% if payments %}
+        <!-- Bulk Actions -->
+        <div class="px-6 py-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+          <div class="flex items-center space-x-4">
+            <input type="checkbox" id="selectAll" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" onchange="toggleAllCheckboxes()">
+            <label for="selectAll" class="text-sm text-gray-700">Select All</label>
+            
+            <div class="flex items-center space-x-2">
+              <button onclick="performBulkAction('mark_paid')" class="text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition disabled:opacity-50" id="bulkMarkPaid" disabled>
+                Mark Selected as Paid
+              </button>
+              <button onclick="performBulkAction('delete')" class="text-sm bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition disabled:opacity-50" id="bulkDelete" disabled>
+                Delete Selected
+              </button>
+            </div>
+          </div>
+          
+          <div class="text-sm text-gray-500">
+            Showing {{ payments|length }} payment(s)
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" onchange="updateBulkButtons()">
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Roll No</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Class</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Parent</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Month</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Receipt</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              {% for p in payments %}
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <input type="checkbox" name="payment_ids" value="{{ p.id }}" class="payment-checkbox h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" onchange="updateBulkButtons()">
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ p.id }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">{{ p.student_name }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ p.roll_no }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ p.student_class }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ p.parent_name }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ p.parent_phone }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ p.payment_month }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">₹{{ "%.2f"|format(p.amount) }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                  {% if p.receipt_filename %}
+                    <a href="{{ url_for('uploaded_file', filename=p.receipt_filename) }}" class="text-blue-600 hover:text-blue-900" target="_blank">
+                      <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                      </svg>
+                    </a>
+                  {% else %}
+                    <span class="text-gray-400">-</span>
+                  {% endif %}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  {% if p.paid %}
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
+                  {% else %}
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Pending</span>
+                  {% endif %}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ p.submitted_at.strftime("%Y-%m-%d %H:%M") }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                  {% if not p.paid %}
+                  <form action="{{ url_for('admin_mark_paid', payment_id=p.id) }}" method="post" class="inline">
+                    <button type="submit" class="text-green-600 hover:text-green-900" title="Mark as Paid">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                    </button>
+                  </form>
+                  {% endif %}
+                  <form action="{{ url_for('admin_delete', payment_id=p.id) }}" method="post" class="inline" onsubmit="return confirm('Are you sure you want to delete this payment?');">
+                    <button type="submit" class="text-red-600 hover:text-red-900" title="Delete">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                      </svg>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="text-center py-12">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">No payment records found</h3>
+          <p class="mt-1 text-sm text-gray-500">Get started by adding some fee payments.</p>
+        </div>
+      {% endif %}
+    </div>
   </div>
 </div>
 
-<!-- Dashboard Summary -->
-<div class="grid md:grid-cols-3 gap-6 mb-10">
-  <div class="bg-white shadow rounded-lg p-5 text-center">
-    <h3 class="text-lg font-semibold text-gray-700">Total Payments</h3>
-    <p class="text-3xl font-bold text-blue-700 mt-2">{{ payments|length }}</p>
-  </div>
-  <div class="bg-white shadow rounded-lg p-5 text-center">
-    <h3 class="text-lg font-semibold text-gray-700">Paid</h3>
-    <p class="text-3xl font-bold text-green-700 mt-2">{{ payments|selectattr('paid')|list|length }}</p>
-  </div>
-  <div class="bg-white shadow rounded-lg p-5 text-center">
-    <h3 class="text-lg font-semibold text-gray-700">Pending</h3>
-    <p class="text-3xl font-bold text-red-700 mt-2">{{ payments|rejectattr('paid')|list|length }}</p>
-  </div>
-</div>
+<!-- Hidden forms for bulk actions -->
+<form id="bulkMarkPaidForm" action="{{ url_for('admin_bulk_mark_paid') }}" method="post" style="display: none;"></form>
+<form id="bulkDeleteForm" action="{{ url_for('admin_bulk_delete') }}" method="post" style="display: none;"></form>
 
-<!-- 🔍 Search & Filter -->
-<form action="{{ url_for('admin_dashboard') }}" method="get" class="flex flex-wrap items-center gap-3 mb-6">
-  <input type="text" name="query" placeholder="Search by student name or roll no..."
-         value="{{ request.args.get('query', '') }}"
-         class="flex-1 border rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200"/>
+<script>
+function toggleAllCheckboxes() {
+  const selectAll = document.getElementById('selectAll');
+  const checkboxes = document.querySelectorAll('.payment-checkbox');
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = selectAll.checked;
+  });
+  updateBulkButtons();
+}
 
-  <select name="filter_class" class="border rounded-lg px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200">
-    <option value="">All Classes</option>
-    {% for c in payments|map(attribute='student_class')|unique|list %}
-      <option value="{{ c }}" {% if request.args.get('filter_class') == c %}selected{% endif %}>{{ c }}</option>
-    {% endfor %}
-  </select>
+function updateBulkButtons() {
+  const checkboxes = document.querySelectorAll('.payment-checkbox:checked');
+  const bulkMarkPaid = document.getElementById('bulkMarkPaid');
+  const bulkDelete = document.getElementById('bulkDelete');
+  
+  if (checkboxes.length > 0) {
+    bulkMarkPaid.disabled = false;
+    bulkDelete.disabled = false;
+  } else {
+    bulkMarkPaid.disabled = true;
+    bulkDelete.disabled = true;
+  }
+}
 
-  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Filter</button>
+function performBulkAction(action) {
+  const checkboxes = document.querySelectorAll('.payment-checkbox:checked');
+  if (checkboxes.length === 0) {
+    alert('Please select at least one payment.');
+    return;
+  }
+  
+  if (action === 'delete' && !confirm(`Are you sure you want to delete ${checkboxes.length} payment(s)?`)) {
+    return;
+  }
+  
+  const form = action === 'mark_paid' ? document.getElementById('bulkMarkPaidForm') : document.getElementById('bulkDeleteForm');
+  form.innerHTML = '';
+  
+  checkboxes.forEach(checkbox => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payment_ids';
+    input.value = checkbox.value;
+    form.appendChild(input);
+  });
+  
+  form.submit();
+}
 
-  {% if request.args.get('query') or request.args.get('filter_class') %}
-  <a href="{{ url_for('admin_dashboard') }}" class="bg-gray-300 text-gray-800 px-3 py-2 rounded-lg hover:bg-gray-400 transition">Clear</a>
-  {% endif %}
-</form>
-
-<!-- Fee Payments Table -->
-<div class="bg-white shadow-md rounded-lg p-6 overflow-x-auto">
-  <h2 class="text-xl font-semibold text-gray-700 mb-4">All Fee Payments</h2>
-  {% if payments %}
-  <table class="w-full border-collapse text-sm">
-    <thead>
-      <tr class="bg-blue-100 text-left">
-        <th class="p-2 border">ID</th>
-        <th class="p-2 border">Student</th>
-        <th class="p-2 border">Roll</th>
-        <th class="p-2 border">Class</th>
-        <th class="p-2 border">Parent</th>
-        <th class="p-2 border">Phone</th>
-        <th class="p-2 border">Month</th>
-        <th class="p-2 border">Amount</th>
-        <th class="p-2 border">Receipt</th>
-        <th class="p-2 border">Paid</th>
-        <th class="p-2 border">Submitted</th>
-        <th class="p-2 border">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for p in payments %}
-      <tr class="hover:bg-gray-50 border-b">
-        <td class="p-2 border">{{ p.id }}</td>
-        <td class="p-2 border">{{ p.student_name }}</td>
-        <td class="p-2 border">{{ p.roll_no }}</td>
-        <td class="p-2 border">{{ p.student_class }}</td>
-        <td class="p-2 border">{{ p.parent_name }}</td>
-        <td class="p-2 border">{{ p.parent_phone }}</td>
-        <td class="p-2 border">{{ p.payment_month }}</td>
-        <td class="p-2 border">₹{{ "%.2f"|format(p.amount) }}</td>
-        <td class="p-2 border">
-          {% if p.receipt_filename %}
-            <a href="{{ url_for('uploaded_file', filename=p.receipt_filename) }}" class="text-blue-600 hover:underline" target="_blank">View</a>
-          {% else %}
-            <span class="text-gray-400">No file</span>
-          {% endif %}
-        </td>
-        <td class="p-2 border">
-          {% if p.paid %}
-            <span class="text-green-600 font-semibold">Yes</span>
-          {% else %}
-            <span class="text-red-600 font-semibold">No</span>
-          {% endif %}
-        </td>
-        <td class="p-2 border">{{ p.submitted_at.strftime("%Y-%m-%d %H:%M") }}</td>
-        <td class="p-2 border space-x-2">
-          {% if not p.paid %}
-          <form action="{{ url_for('admin_mark_paid', payment_id=p.id) }}" method="post" class="inline">
-            <button class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition">Mark Paid</button>
-          </form>
-          {% endif %}
-          <form action="{{ url_for('admin_delete', payment_id=p.id) }}" method="post" class="inline" onsubmit="return confirm('Delete this payment?');">
-            <button class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition">Delete</button>
-          </form>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <p class="text-gray-500 text-center py-6">No payment records found.</p>
-  {% endif %}
-</div>
-
+// Update select all checkbox when individual checkboxes change
+document.addEventListener('change', function(e) {
+  if (e.target.classList.contains('payment-checkbox')) {
+    const allCheckboxes = document.querySelectorAll('.payment-checkbox');
+    const checkedCheckboxes = document.querySelectorAll('.payment-checkbox:checked');
+    const selectAll = document.getElementById('selectAll');
+    
+    if (checkedCheckboxes.length === 0) {
+      selectAll.indeterminate = false;
+      selectAll.checked = false;
+    } else if (checkedCheckboxes.length === allCheckboxes.length) {
+      selectAll.indeterminate = false;
+      selectAll.checked = true;
+    } else {
+      selectAll.indeterminate = true;
+    }
+    
+    updateBulkButtons();
+  }
+});
+</script>
 {% endblock %}

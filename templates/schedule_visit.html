@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Animated background particles -->
+  <div class="absolute inset-0">
+    <div class="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
+    <div class="absolute top-40 right-10 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
+    <div class="absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 4s;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto px-6 py-20 w-full">
+    <div class="glass rounded-3xl p-12 border-2 border-white/20">
+      <div class="text-center mb-10">
+        <h1 class="text-4xl md:text-5xl font-black mb-6">
+          <span class="bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 bg-clip-text text-transparent">
+            Schedule a Visit
+          </span>
+        </h1>
+        <p class="text-xl text-white/80 leading-relaxed">
+          Plan your visit to Nav Yug School. We'd love to show you around and answer all your questions.
+        </p>
+      </div>
+
+      <form action="{{ url_for('schedule_visit') }}" method="post" class="space-y-8">
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Student Information -->
+          <div class="space-y-6">
+            <h3 class="text-2xl font-bold text-white mb-4">
+              <i class="fas fa-user-graduate mr-3 text-yellow-300"></i>Student Information
+            </h3>
+            
+            <div>
+              <label class="block text-sm font-medium text-white mb-2">Student Name *</label>
+              <input name="student_name" required 
+                     class="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-white placeholder-white/60 backdrop-blur-sm focus:outline-none focus:border-white/40 transition-all duration-300"
+                     placeholder="Enter student's full name">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-white mb-2">Class *</label>
+              <select name="student_class" required 
+                      class="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-white backdrop-blur-sm focus:outline-none focus:border-white/40 transition-all duration-300">
+                <option value="">Select Class</option>
+                <option value="Nursery">Nursery</option>
+                <option value="LKG">LKG</option>
+                <option value="UKG">UKG</option>
+                <option value="1st">1st Grade</option>
+                <option value="2nd">2nd Grade</option>
+                <option value="3rd">3rd Grade</option>
+                <option value="4th">4th Grade</option>
+                <option value="5th">5th Grade</option>
+                <option value="6th">6th Grade</option>
+                <option value="7th">7th Grade</option>
+                <option value="8th">8th Grade</option>
+                <option value="9th">9th Grade</option>
+                <option value="10th">10th Grade</option>
+                <option value="11th">11th Grade</option>
+                <option value="12th">12th Grade</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-white mb-2">Section *</label>
+              <select name="section" required 
+                      class="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-white backdrop-blur-sm focus:outline-none focus:border-white/40 transition-all duration-300">
+                <option value="">Select Section</option>
+                <option value="A">Section A</option>
+                <option value="B">Section B</option>
+                <option value="C">Section C</option>
+                <option value="D">Section D</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Parent Information -->
+          <div class="space-y-6">
+            <h3 class="text-2xl font-bold text-white mb-4">
+              <i class="fas fa-user-tie mr-3 text-green-300"></i>Parent Information
+            </h3>
+            
+            <div>
+              <label class="block text-sm font-medium text-white mb-2">Parent Name *</label>
+              <input name="parent_name" required 
+                     class="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-white placeholder-white/60 backdrop-blur-sm focus:outline-none focus:border-white/40 transition-all duration-300"
+                     placeholder="Enter parent's full name">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-white mb-2">Phone Number *</label>
+              <input name="parent_phone" type="tel" required 
+                     class="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-white placeholder-white/60 backdrop-blur-sm focus:outline-none focus:border-white/40 transition-all duration-300"
+                     placeholder="Enter 10-digit phone number"
+                     pattern="[0-9]{10}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Visit Details -->
+        <div class="space-y-6">
+          <h3 class="text-2xl font-bold text-white mb-4">
+            <i class="fas fa-calendar-alt mr-3 text-blue-300"></i>Visit Details
+          </h3>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-white mb-2">Preferred Date *</label>
+              <input name="visit_date" type="date" required 
+                     class="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-white backdrop-blur-sm focus:outline-none focus:border-white/40 transition-all duration-300"
+                     min="{{ today_date }}">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-white mb-2">Preferred Time *</label>
+              <select name="visit_time" required 
+                      class="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-white backdrop-blur-sm focus:outline-none focus:border-white/40 transition-all duration-300">
+                <option value="">Select Time</option>
+                <option value="9:00 AM - 10:00 AM">9:00 AM - 10:00 AM</option>
+                <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
+                <option value="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</option>
+                <option value="12:00 PM - 1:00 PM">12:00 PM - 1:00 PM</option>
+                <option value="2:00 PM - 3:00 PM">2:00 PM - 3:00 PM</option>
+                <option value="3:00 PM - 4:00 PM">3:00 PM - 4:00 PM</option>
+                <option value="4:00 PM - 5:00 PM">4:00 PM - 5:00 PM</option>
+              </select>
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-white mb-2">Purpose of Visit *</label>
+            <textarea name="purpose" required rows="4" 
+                      class="w-full bg-white/10 border border-white/20 rounded-lg p-3 text-white placeholder-white/60 backdrop-blur-sm focus:outline-none focus:border-white/40 transition-all duration-300"
+                      placeholder="Tell us why you'd like to visit (e.g., admission inquiry, school tour, meeting with teachers, etc.)"></textarea>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center pt-6">
+          <button type="submit" 
+                  class="group relative overflow-hidden bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-12 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-yellow-400/50 transition-all duration-500 hover:scale-110">
+            <span class="relative z-10 flex items-center">
+              <i class="fas fa-calendar-check mr-3"></i>
+              Schedule Visit
+            </span>
+            <div class="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+          </button>
+        </div>
+      </form>
+
+      <!-- Contact Information -->
+      <div class="mt-12 pt-8 border-t border-white/20">
+        <div class="text-center">
+          <h3 class="text-xl font-bold text-white mb-4">Need Help?</h3>
+          <div class="grid md:grid-cols-3 gap-6 text-white/80">
+            <div class="flex items-center justify-center space-x-3">
+              <i class="fas fa-phone text-green-300"></i>
+              <span>+91 12345 67890</span>
+            </div>
+            <div class="flex items-center justify-center space-x-3">
+              <i class="fas fa-envelope text-yellow-300"></i>
+              <span>navyugschool@example.com</span>
+            </div>
+            <div class="flex items-center justify-center space-x-3">
+              <i class="fas fa-clock text-blue-300"></i>
+              <span>Mon-Fri: 9AM-5PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-20px) rotate(-3deg); }
+  66% { transform: translateY(-10px) rotate(3deg); }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+/* Glass enhancement */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Gradient text enhancement */
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+</style>
+{% endblock %}
