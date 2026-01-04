@@ -50,13 +50,15 @@ def contact():
     if request.method == "POST":
         name = request.form.get("name")
         email = request.form.get("email")
+        phone = request.form.get("phone")
+        subject = request.form.get("subject")
         message = request.form.get("message")
 
         if not (name and email and message):
-            flash("Please fill all fields.", "danger")
+            flash("Please fill all required fields.", "danger")
             return redirect(url_for("contact"))
 
-        msg = ContactMessage(name=name, email=email, message=message)
+        msg = ContactMessage(name=name, email=email, phone=phone, subject=subject, message=message)
         db.session.add(msg)
         db.session.commit()
         flash("Your message has been sent successfully!", "success")
@@ -191,18 +193,54 @@ def uploaded_file(filename):
 def admin_logged_in():
     return session.get("admin_logged_in") == True
 
+# ---- Teacher simple auth ----
+def teacher_logged_in():
+    return session.get("teacher_logged_in") == True
+
+def get_current_teacher():
+    if teacher_logged_in():
+        teacher_id = session.get("teacher_id")
+        return Teacher.query.filter_by(teacher_id=teacher_id).first()
+    return None
+
+# ---- Parent simple auth ----
+def parent_logged_in():
+    return session.get("parent_logged_in") == True
+
+def get_current_student():
+    if parent_logged_in():
+        student_id = session.get("student_id")
+        return Student.query.get(student_id)
+    return None
+
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
-        u = request.form.get("username", "")
-        p = request.form.get("password", "")
-        if u == app.config['ADMIN_USERNAME'] and p == app.config['ADMIN_PASSWORD']:
-            session["admin_logged_in"] = True
-            flash("Logged in as admin.", "success")
-            return redirect(url_for("admin_dashboard"))
-        else:
-            flash("Invalid credentials.", "danger")
-            return redirect(url_for("admin_login"))
+        login_type = request.form.get("login_type", "admin")
+        
+        if login_type == "admin":
+            u = request.form.get("username", "")
+            p = request.form.get("password", "")
+            if u == app.config['ADMIN_USERNAME'] and p == app.config['ADMIN_PASSWORD']:
+                session["admin_logged_in"] = True
+                flash("Logged in as admin.", "success")
+                return redirect(url_for("admin_dashboard"))
+            else:
+                flash("Invalid credentials.", "danger")
+                return redirect(url_for("admin_login"))
+        else:  # teacher login
+            teacher_id = request.form.get("teacher_id", "")
+            password = request.form.get("password", "")
+            teacher = Teacher.query.filter_by(teacher_id=teacher_id).first()
+            if teacher and teacher.password == password:
+                session["teacher_logged_in"] = True
+                session["teacher_id"] = teacher_id
+                session["teacher_name"] = teacher.name
+                flash(f"Welcome, {teacher.name}!", "success")
+                return redirect(url_for("teacher_dashboard"))
+            else:
+                flash("Invalid teacher ID or password.", "danger")
+                return redirect(url_for("admin_login"))
     return render_template("admin_login.html")
 
 @app.route("/admin/logout")
@@ -210,6 +248,69 @@ def admin_logout():
     session.pop("admin_logged_in", None)
     flash("Logged out.", "info")
     return redirect(url_for("index"))
+
+@app.route("/teacher/logout")
+def teacher_logout():
+    session.pop("teacher_logged_in", None)
+    session.pop("teacher_id", None)
+    session.pop("teacher_name", None)
+    flash("Logged out.", "info")
+    return redirect(url_for("index"))
+
+@app.route("/parent/login", methods=["GET", "POST"])
+def parent_login():
+    if request.method == "POST":
+        admission_number = request.form.get("admission_number", "").strip()
+        roll_number = request.form.get("roll_number", "").strip()
+        
+        if not (admission_number and roll_number):
+            flash("Please fill all fields.", "danger")
+            return redirect(url_for("parent_login"))
+        
+        # Find student by admission number and roll number
+        student = Student.query.filter_by(
+            admission_number=admission_number,
+            roll_no=roll_number
+        ).first()
+        
+        if student:
+            session["parent_logged_in"] = True
+            session["student_id"] = student.id
+            flash(f"Welcome! You are now logged in for {student.name}.", "success")
+            return redirect(url_for("parent_dashboard"))
+        else:
+            flash("Invalid admission number or roll number.", "danger")
+            return redirect(url_for("parent_login"))
+    
+    return render_template("parent_login.html")
+
+@app.route("/parent/logout")
+def parent_logout():
+    session.pop("parent_logged_in", None)
+    session.pop("student_id", None)
+    flash("Logged out.", "info")
+    return redirect(url_for("index"))
+
+@app.route("/parent/dashboard")
+def parent_dashboard():
+    if not parent_logged_in():
+        return redirect(url_for("parent_login"))
+    
+    student = get_current_student()
+    if not student:
+        flash("Student not found.", "danger")
+        return redirect(url_for("parent_logout"))
+    
+    # Get student's fee payments
+    fee_payments = FeePayment.query.filter_by(roll_no=student.roll_no).order_by(FeePayment.submitted_at.desc()).all()
+    
+    # Get student's marks
+    marks = Marks.query.filter_by(student_id=student.id).order_by(Marks.exam_date.desc()).limit(10).all()
+    
+    return render_template("parent_dashboard.html", 
+                         student=student, 
+                         fee_payments=fee_payments,
+                         marks=marks)
 
 @app.route("/admin/dashboard")
 def admin_dashboard():
@@ -372,19 +473,25 @@ def admin_add_student():
 
     name = request.form.get("name")
     roll_no = request.form.get("roll_no")
+    admission_number = request.form.get("admission_number")
     student_class = request.form.get("student_class")
     section = request.form.get("section")
     parent_name = request.form.get("parent_name")
     parent_phone = request.form.get("parent_phone")
     admission_date_str = request.form.get("admission_date")
 
-    if not (name and roll_no and student_class and section and parent_name and parent_phone and admission_date_str):
+    if not (name and roll_no and admission_number and student_class and section and parent_name and parent_phone and admission_date_str):
         flash("Please fill all fields.", "danger")
         return redirect(url_for("admin_students"))
 
     # Check if roll number already exists
     if Student.query.filter_by(roll_no=roll_no).first():
         flash("Roll number already exists!", "danger")
+        return redirect(url_for("admin_students"))
+    
+    # Check if admission number already exists
+    if Student.query.filter_by(admission_number=admission_number).first():
+        flash("Admission number already exists!", "danger")
         return redirect(url_for("admin_students"))
 
     try:
@@ -396,6 +503,7 @@ def admin_add_student():
     student = Student(
         name=name,
         roll_no=roll_no,
+        admission_number=admission_number,
         student_class=student_class,
         section=section,
         parent_name=parent_name,
@@ -481,6 +589,297 @@ def admin_delete_visit(visit_id):
     
     return redirect(url_for("admin_visits"))
 
+@app.route("/admin/teachers")
+def admin_teachers():
+    if not admin_logged_in():
+        return redirect(url_for("admin_login"))
+    
+    teachers = Teacher.query.order_by(Teacher.assigned_class, Teacher.assigned_section, Teacher.name).all()
+    
+    return render_template("admin_teachers.html", teachers=teachers)
+
+@app.route("/admin/contacts")
+def admin_contacts():
+    if not admin_logged_in():
+        return redirect(url_for("admin_login"))
+    
+    # Get query parameters
+    query = request.args.get('query', '').strip()
+    filter_subject = request.args.get('filter_subject', '').strip()
+    
+    # Start with base query
+    contacts_query = ContactMessage.query
+    
+    # Apply search filters
+    if query:
+        contacts_query = contacts_query.filter(
+            db.or_(
+                ContactMessage.name.ilike(f'%{query}%'),
+                ContactMessage.email.ilike(f'%{query}%'),
+                ContactMessage.message.ilike(f'%{query}%')
+            )
+        )
+    
+    if filter_subject:
+        contacts_query = contacts_query.filter(ContactMessage.subject == filter_subject)
+    
+    # Order and execute
+    contacts = contacts_query.order_by(ContactMessage.submitted_at.desc()).all()
+    
+    return render_template("admin_contacts.html", contacts=contacts)
+
+@app.route("/admin/delete_contact/<int:contact_id>", methods=["POST"])
+def admin_delete_contact(contact_id):
+    if not admin_logged_in():
+        return redirect(url_for("admin_login"))
+    
+    contact = ContactMessage.query.get_or_404(contact_id)
+    db.session.delete(contact)
+    db.session.commit()
+    flash(f"Contact from {contact.name} deleted.", "info")
+    return redirect(url_for("admin_contacts"))
+
+@app.route("/admin/add_teacher", methods=["POST"])
+def admin_add_teacher():
+    if not admin_logged_in():
+        return redirect(url_for("admin_login"))
+    
+    teacher_id = request.form.get("teacher_id", "").strip()
+    name = request.form.get("name", "").strip()
+    password = request.form.get("password", "").strip()
+    assigned_class = request.form.get("assigned_class", "").strip()
+    assigned_section = request.form.get("assigned_section", "").strip()
+    email = request.form.get("email", "").strip()
+    phone = request.form.get("phone", "").strip()
+    
+    if not (teacher_id and name and password and assigned_class and assigned_section):
+        flash("Please fill all required fields.", "danger")
+        return redirect(url_for("admin_teachers"))
+    
+    # Check if teacher ID already exists
+    if Teacher.query.filter_by(teacher_id=teacher_id).first():
+        flash("Teacher ID already exists!", "danger")
+        return redirect(url_for("admin_teachers"))
+    
+    teacher = Teacher(
+        teacher_id=teacher_id,
+        name=name,
+        password=password,
+        assigned_class=assigned_class,
+        assigned_section=assigned_section,
+        email=email if email else None,
+        phone=phone if phone else None
+    )
+    db.session.add(teacher)
+    db.session.commit()
+    flash(f"Teacher {name} added successfully.", "success")
+    return redirect(url_for("admin_teachers"))
+
+@app.route("/admin/delete_teacher/<int:teacher_id>", methods=["POST"])
+def admin_delete_teacher(teacher_id):
+    if not admin_logged_in():
+        return redirect(url_for("admin_login"))
+    
+    teacher = Teacher.query.get_or_404(teacher_id)
+    teacher_name = teacher.name
+    db.session.delete(teacher)
+    db.session.commit()
+    flash(f"Teacher {teacher_name} deleted.", "info")
+    return redirect(url_for("admin_teachers"))
+
+# ---- Teacher Routes ----
+@app.route("/teacher/dashboard")
+def teacher_dashboard():
+    if not teacher_logged_in():
+        return redirect(url_for("admin_login"))
+    
+    teacher = get_current_teacher()
+    if not teacher:
+        flash("Teacher not found.", "danger")
+        return redirect(url_for("teacher_logout"))
+    
+    # Get students in teacher's class
+    students = Student.query.filter_by(
+        student_class=teacher.assigned_class,
+        section=teacher.assigned_section
+    ).order_by(Student.roll_no).all()
+    
+    # Get recent marks uploaded by this teacher
+    recent_marks = Marks.query.filter_by(teacher_id=teacher.id).order_by(Marks.uploaded_at.desc()).limit(10).all()
+    
+    # Get statistics
+    total_students = len(students)
+    total_marks_uploaded = Marks.query.filter_by(teacher_id=teacher.id).count()
+    
+    return render_template("teacher_dashboard.html", 
+                         teacher=teacher, 
+                         students=students,
+                         recent_marks=recent_marks,
+                         total_students=total_students,
+                         total_marks_uploaded=total_marks_uploaded)
+
+@app.route("/teacher/students")
+def teacher_students():
+    if not teacher_logged_in():
+        return redirect(url_for("admin_login"))
+    
+    teacher = get_current_teacher()
+    if not teacher:
+        flash("Teacher not found.", "danger")
+        return redirect(url_for("teacher_logout"))
+    
+    # Get students in teacher's class
+    students = Student.query.filter_by(
+        student_class=teacher.assigned_class,
+        section=teacher.assigned_section
+    ).order_by(Student.roll_no).all()
+    
+    return render_template("teacher_students.html", 
+                         teacher=teacher, 
+                         students=students)
+
+@app.route("/teacher/marks", methods=["GET", "POST"])
+def teacher_marks():
+    if not teacher_logged_in():
+        return redirect(url_for("admin_login"))
+    
+    teacher = get_current_teacher()
+    if not teacher:
+        flash("Teacher not found.", "danger")
+        return redirect(url_for("teacher_logout"))
+    
+    if request.method == "POST":
+        # Handle bulk marks upload
+        student_id = request.form.get("student_id")
+        subject = request.form.get("subject", "").strip()
+        exam_type = request.form.get("exam_type", "").strip()
+        marks_obtained = request.form.get("marks_obtained", "").strip()
+        max_marks = request.form.get("max_marks", "100").strip()
+        exam_date_str = request.form.get("exam_date", "").strip()
+        remarks = request.form.get("remarks", "").strip()
+        
+        if not (student_id and subject and exam_type and marks_obtained and exam_date_str):
+            flash("Please fill all required fields.", "danger")
+            return redirect(url_for("teacher_marks"))
+        
+        # Verify student is in teacher's class
+        student = Student.query.get(int(student_id))
+        if not student or student.student_class != teacher.assigned_class or student.section != teacher.assigned_section:
+            flash("Invalid student selection.", "danger")
+            return redirect(url_for("teacher_marks"))
+        
+        try:
+            marks_val = float(marks_obtained)
+            max_marks_val = float(max_marks)
+            exam_date = datetime.strptime(exam_date_str, '%Y-%m-%d').date()
+        except (ValueError, TypeError):
+            flash("Invalid marks or date format.", "danger")
+            return redirect(url_for("teacher_marks"))
+        
+        mark = Marks(
+            student_id=student.id,
+            teacher_id=teacher.id,
+            subject=subject,
+            exam_type=exam_type,
+            marks_obtained=marks_val,
+            max_marks=max_marks_val,
+            exam_date=exam_date,
+            remarks=remarks
+        )
+        db.session.add(mark)
+        db.session.commit()
+        flash(f"Marks uploaded successfully for {student.name}.", "success")
+        return redirect(url_for("teacher_marks"))
+    
+    # Get students in teacher's class
+    students = Student.query.filter_by(
+        student_class=teacher.assigned_class,
+        section=teacher.assigned_section
+    ).order_by(Student.roll_no).all()
+    
+    # Get all marks uploaded by this teacher
+    marks_query = Marks.query.filter_by(teacher_id=teacher.id)
+    
+    # Apply filters
+    filter_student = request.args.get('filter_student', '').strip()
+    filter_subject = request.args.get('filter_subject', '').strip()
+    filter_exam_type = request.args.get('filter_exam_type', '').strip()
+    
+    if filter_student:
+        marks_query = marks_query.filter_by(student_id=int(filter_student))
+    if filter_subject:
+        marks_query = marks_query.filter(Marks.subject.ilike(f'%{filter_subject}%'))
+    if filter_exam_type:
+        marks_query = marks_query.filter_by(exam_type=filter_exam_type)
+    
+    marks = marks_query.order_by(Marks.exam_date.desc(), Marks.uploaded_at.desc()).all()
+    
+    # Get unique subjects and exam types for filters
+    all_subjects = db.session.query(Marks.subject).filter_by(teacher_id=teacher.id).distinct().all()
+    subjects = [s[0] for s in all_subjects if s[0]]
+    
+    all_exam_types = db.session.query(Marks.exam_type).filter_by(teacher_id=teacher.id).distinct().all()
+    exam_types = [e[0] for e in all_exam_types if e[0]]
+    
+    return render_template("teacher_marks.html", 
+                         teacher=teacher, 
+                         students=students,
+                         marks=marks,
+                         subjects=subjects,
+                         exam_types=exam_types)
+
+@app.route("/teacher/marks/delete/<int:mark_id>", methods=["POST"])
+def teacher_delete_mark(mark_id):
+    if not teacher_logged_in():
+        return redirect(url_for("admin_login"))
+    
+    teacher = get_current_teacher()
+    if not teacher:
+        flash("Teacher not found.", "danger")
+        return redirect(url_for("teacher_logout"))
+    
+    mark = Marks.query.get_or_404(mark_id)
+    
+    # Verify teacher owns this mark
+    if mark.teacher_id != teacher.id:
+        flash("Unauthorized action.", "danger")
+        return redirect(url_for("teacher_marks"))
+    
+    student_name = mark.student.name
+    db.session.delete(mark)
+    db.session.commit()
+    flash(f"Marks deleted for {student_name}.", "info")
+    return redirect(url_for("teacher_marks"))
+
+@app.route("/teacher/marks/edit/<int:mark_id>", methods=["POST"])
+def teacher_edit_mark(mark_id):
+    if not teacher_logged_in():
+        return redirect(url_for("admin_login"))
+    
+    teacher = get_current_teacher()
+    if not teacher:
+        flash("Teacher not found.", "danger")
+        return redirect(url_for("teacher_logout"))
+    
+    mark = Marks.query.get_or_404(mark_id)
+    
+    # Verify teacher owns this mark
+    if mark.teacher_id != teacher.id:
+        flash("Unauthorized action.", "danger")
+        return redirect(url_for("teacher_marks"))
+    
+    # Update mark
+    mark.subject = request.form.get("subject", "").strip()
+    mark.exam_type = request.form.get("exam_type", "").strip()
+    mark.marks_obtained = float(request.form.get("marks_obtained", "0"))
+    mark.max_marks = float(request.form.get("max_marks", "100"))
+    mark.exam_date = datetime.strptime(request.form.get("exam_date", ""), '%Y-%m-%d').date()
+    mark.remarks = request.form.get("remarks", "").strip()
+    
+    db.session.commit()
+    flash("Marks updated successfully.", "success")
+    return redirect(url_for("teacher_marks"))
+
 # ---- Error handlers ----
 @app.errorhandler(404)
 def page_not_found(e):
@@ -491,11 +890,20 @@ class ContactMessage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), nullable=False)
+    phone = db.Column(db.String(20))
+    subject = db.Column(db.String(50))
     message = db.Column(db.Text, nullable=False)
     submitted_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    @property
+    def created_this_week(self):
+        from datetime import datetime, timedelta
+        week_ago = datetime.utcnow() - timedelta(days=7)
+        return self.submitted_at >= week_ago
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    admission_number = db.Column(db.String(50), unique=True, nullable=False)
     roll_no = db.Column(db.String(20), unique=True, nullable=False)
     name = db.Column(db.String(120), nullable=False)
     student_class = db.Column(db.String(50), nullable=False)
@@ -522,6 +930,39 @@ class Visit(db.Model):
 
     def __repr__(self):
         return f"<Visit {self.student_name} - {self.visit_date}>"
+
+class Teacher(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    teacher_id = db.Column(db.String(50), unique=True, nullable=False)
+    name = db.Column(db.String(120), nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+    assigned_class = db.Column(db.String(50), nullable=False)
+    assigned_section = db.Column(db.String(10), nullable=False)
+    email = db.Column(db.String(120))
+    phone = db.Column(db.String(20))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"<Teacher {self.name} ({self.teacher_id})>"
+
+class Marks(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
+    teacher_id = db.Column(db.Integer, db.ForeignKey('teacher.id'), nullable=False)
+    subject = db.Column(db.String(100), nullable=False)
+    exam_type = db.Column(db.String(50), nullable=False)  # Unit Test, Mid Term, Final Exam, etc.
+    marks_obtained = db.Column(db.Float, nullable=False)
+    max_marks = db.Column(db.Float, nullable=False, default=100)
+    exam_date = db.Column(db.Date, nullable=False)
+    remarks = db.Column(db.Text)
+    uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Relationships
+    student = db.relationship('Student', backref='marks')
+    teacher = db.relationship('Teacher', backref='marks_uploaded')
+
+    def __repr__(self):
+        return f"<Marks {self.student_id} - {self.subject} - {self.exam_type}>"
 # ---- Run ----
 if __name__ == "__main__":
     app.run(debug=True)

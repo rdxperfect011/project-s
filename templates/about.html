@@ -1,23 +1,397 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="text-2xl font-bold text-blue-700 mb-4">About Our School</h2>
-<p class="text-gray-700 leading-relaxed">
-Nav Yug Higher Secondary School is dedicated to shaping bright futures with a focus on academic excellence, discipline, and holistic development. 
-Our teachers are committed to nurturing every student to reach their full potential through innovative teaching and a supportive environment.
-</p>
+<div class="max-w-6xl mx-auto">
+  <!-- Header Section -->
+  <div class="text-center mb-12">
+    <h2 class="text-4xl font-bold text-blue-700 mb-4">About Nav Yug Higher Secondary School</h2>
+    <div class="w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto rounded-full"></div>
+  </div>
 
-<div class="mt-6 grid md:grid-cols-3 gap-6">
-  <div class="bg-white shadow rounded-lg p-4 text-center">
-    <h3 class="font-semibold text-lg">Our Mission</h3>
-    <p class="text-gray-600 text-sm mt-2">To provide quality education and instill values that prepare students for a successful future.</p>
+  <!-- About Section -->
+  <div class="bg-white shadow-lg rounded-lg p-8 mb-8">
+    <h3 class="text-2xl font-semibold text-blue-600 mb-4">Our Story</h3>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Nav Yug Higher Secondary School is dedicated to shaping bright futures with a focus on academic excellence, discipline, and holistic development. 
+      Our teachers are committed to nurturing every student to reach their full potential through innovative teaching and a supportive environment.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Established with a vision to provide quality education, we have been serving the community for over two decades. Our institution is 
+      <span class="font-semibold text-blue-600">proudly affiliated to JKBOSE (Jammu & Kashmir Board of School Education)</span>, 
+      ensuring our students receive recognized and standardized education that meets the highest academic standards.
+    </p>
+    <p class="text-gray-700 leading-relaxed">
+      We believe in creating a learning environment where students not only excel academically but also develop into responsible, 
+      compassionate, and well-rounded individuals ready to face the challenges of the modern world.
+    </p>
   </div>
-  <div class="bg-white shadow rounded-lg p-4 text-center">
-    <h3 class="font-semibold text-lg">Our Vision</h3>
-    <p class="text-gray-600 text-sm mt-2">To be a leading institution recognized for excellence in academics and character building.</p>
+
+  <!-- History Section -->
+  <div class="relative bg-gradient-to-br from-blue-50 to-purple-50 shadow-lg rounded-lg p-8 mb-8 overflow-hidden">
+    <!-- Animated background particles -->
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute top-10 left-10 w-20 h-20 bg-blue-300 rounded-full animate-float-slow"></div>
+      <div class="absolute top-20 right-20 w-16 h-16 bg-purple-300 rounded-full animate-float-slow" style="animation-delay: 2s;"></div>
+      <div class="absolute bottom-10 left-1/3 w-24 h-24 bg-pink-300 rounded-full animate-float-slow" style="animation-delay: 4s;"></div>
+    </div>
+    
+    <div class="relative z-10">
+      <div class="text-center mb-10">
+        <h3 class="text-3xl font-bold text-purple-600 mb-4 animate-fade-in-up">Our Journey Through Time</h3>
+        <div class="w-32 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full animate-pulse"></div>
+      </div>
+      
+      <!-- Timeline with animations -->
+      <div class="relative">
+        <!-- Timeline line -->
+        <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-300 via-blue-300 to-pink-300 rounded-full animate-pulse"></div>
+        
+        <div class="space-y-12">
+          <!-- 1999 - The Beginning -->
+          <div class="flex items-center justify-between timeline-item animate-slide-in-left">
+            <div class="w-5/12 text-right pr-8">
+              <div class="bg-white rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 group">
+                <div class="absolute -left-3 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-blue-500 rounded-full border-4 border-white shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
+                <h4 class="font-bold text-xl text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">1999</h4>
+                <h5 class="font-semibold text-lg text-gray-700 mb-2">The Beginning</h5>
+                <p class="text-gray-600">Nav Yug Higher Secondary School was founded with a mission to provide quality education to the local community.</p>
+                <div class="mt-3 flex justify-end">
+                  <span class="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold">Foundation</span>
+                </div>
+              </div>
+            </div>
+            <div class="w-2/12 flex justify-center">
+              <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center text-white font-bold shadow-lg animate-pulse">
+                <i class="fas fa-flag"></i>
+              </div>
+            </div>
+            <div class="w-5/12"></div>
+          </div>
+
+          <!-- 2005 - JKBOSE Affiliation -->
+          <div class="flex items-center justify-between timeline-item animate-slide-in-right">
+            <div class="w-5/12"></div>
+            <div class="w-2/12 flex justify-center">
+              <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-400 rounded-full flex items-center justify-center text-white font-bold shadow-lg animate-pulse">
+                <i class="fas fa-award"></i>
+              </div>
+            </div>
+            <div class="w-5/12 pl-8">
+              <div class="bg-white rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 group">
+                <div class="absolute -right-3 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-green-500 rounded-full border-4 border-white shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
+                <h4 class="font-bold text-xl text-gray-800 mb-2 group-hover:text-green-600 transition-colors">2005</h4>
+                <h5 class="font-semibold text-lg text-gray-700 mb-2">JKBOSE Affiliation</h5>
+                <p class="text-gray-600">Achieved official affiliation with JKBOSE, marking a significant milestone in our commitment to academic excellence.</p>
+                <div class="mt-3">
+                  <span class="inline-block px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm font-semibold">Accreditation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2010 - Expansion & Growth -->
+          <div class="flex items-center justify-between timeline-item animate-slide-in-left">
+            <div class="w-5/12 text-right pr-8">
+              <div class="bg-white rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 group">
+                <div class="absolute -left-3 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-purple-500 rounded-full border-4 border-white shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
+                <h4 class="font-bold text-xl text-gray-800 mb-2 group-hover:text-purple-600 transition-colors">2010</h4>
+                <h5 class="font-semibold text-lg text-gray-700 mb-2">Expansion & Growth</h5>
+                <p class="text-gray-600">Expanded our facilities and introduced advanced laboratories and digital classrooms to enhance learning experiences.</p>
+                <div class="mt-3 flex justify-end">
+                  <span class="inline-block px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm font-semibold">Infrastructure</span>
+                </div>
+              </div>
+            </div>
+            <div class="w-2/12 flex justify-center">
+              <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold shadow-lg animate-pulse">
+                <i class="fas fa-building"></i>
+              </div>
+            </div>
+            <div class="w-5/12"></div>
+          </div>
+
+          <!-- 2015 - Excellence Recognition -->
+          <div class="flex items-center justify-between timeline-item animate-slide-in-right">
+            <div class="w-5/12"></div>
+            <div class="w-2/12 flex justify-center">
+              <div class="w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-white font-bold shadow-lg animate-pulse">
+                <i class="fas fa-trophy"></i>
+              </div>
+            </div>
+            <div class="w-5/12 pl-8">
+              <div class="bg-white rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 group">
+                <div class="absolute -right-3 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-yellow-500 rounded-full border-4 border-white shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
+                <h4 class="font-bold text-xl text-gray-800 mb-2 group-hover:text-yellow-600 transition-colors">2015</h4>
+                <h5 class="font-semibold text-lg text-gray-700 mb-2">Excellence Recognition</h5>
+                <p class="text-gray-600">Recognized for outstanding board results and holistic development programs across Jammu & Kashmir.</p>
+                <div class="mt-3">
+                  <span class="inline-block px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-sm font-semibold">Achievement</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Present - Leading Institution -->
+          <div class="flex items-center justify-between timeline-item animate-slide-in-left">
+            <div class="w-5/12 text-right pr-8">
+              <div class="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hover:-translate-y-2 group">
+                <div class="absolute -left-3 top-1/2 transform -translate-y-1/2 w-6 h-6 bg-white rounded-full border-4 border-blue-500 shadow-lg group-hover:scale-125 transition-transform duration-300"></div>
+                <h4 class="font-bold text-xl mb-2 group-hover:text-yellow-300 transition-colors">Present</h4>
+                <h5 class="font-semibold text-lg mb-2">Leading Institution</h5>
+                <p class="text-blue-100">Today, we stand as a premier educational institution with over 1000 students and 50+ dedicated faculty members.</p>
+                <div class="mt-3 flex justify-end">
+                  <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur text-white rounded-full text-sm font-semibold">Milestone</span>
+                </div>
+              </div>
+            </div>
+            <div class="w-2/12 flex justify-center">
+              <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center text-white font-bold shadow-lg animate-pulse">
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+            <div class="w-5/12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="bg-white shadow rounded-lg p-4 text-center">
-    <h3 class="font-semibold text-lg">Our Motto</h3>
-    <p class="text-gray-600 text-sm mt-2">“Education for All, Excellence in All.”</p>
+
+  <!-- JKBOSE Affiliation Highlight -->
+  <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg p-8 mb-8 shadow-xl">
+    <div class="text-center">
+      <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-4">
+        <span class="text-3xl font-bold text-blue-600">JK</span>
+      </div>
+      <h3 class="text-2xl font-bold mb-2">JKBOSE Affiliated</h3>
+      <p class="text-lg mb-4">Jammu & Kashmir Board of School Education</p>
+      <p class="text-blue-100">
+        Our affiliation with JKBOSE ensures that our curriculum meets the highest educational standards 
+        and our students receive recognized qualifications that are accepted nationwide.
+      </p>
+    </div>
+  </div>
+
+  <!-- Mission, Vision, Motto -->
+  <div class="grid md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
+      <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-bullseye text-2xl text-blue-600"></i>
+      </div>
+      <h3 class="font-bold text-xl text-gray-800 mb-3">Our Mission</h3>
+      <p class="text-gray-600">To provide quality education and instill values that prepare students for a successful future.</p>
+    </div>
+    <div class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
+      <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-eye text-2xl text-purple-600"></i>
+      </div>
+      <h3 class="font-bold text-xl text-gray-800 mb-3">Our Vision</h3>
+      <p class="text-gray-600">To be a leading institution recognized for excellence in academics and character building.</p>
+    </div>
+    <div class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-xl transition-shadow duration-300">
+      <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-quote-left text-2xl text-green-600"></i>
+      </div>
+      <h3 class="font-bold text-xl text-gray-800 mb-3">Our Motto</h3>
+      <p class="text-gray-600 italic">"Education for All, Excellence in All."</p>
+    </div>
+  </div>
+
+  <!-- Key Features -->
+  <div class="bg-gray-50 rounded-lg p-8 shadow-lg">
+    <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Why Choose Nav Yug Higher Secondary School?</h3>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="text-center">
+        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-3">
+          <i class="fas fa-graduation-cap text-white"></i>
+        </div>
+        <h4 class="font-semibold text-gray-800">JKBOSE Curriculum</h4>
+        <p class="text-sm text-gray-600">Recognized board affiliation</p>
+      </div>
+      <div class="text-center">
+        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
+          <i class="fas fa-users text-white"></i>
+        </div>
+        <h4 class="font-semibold text-gray-800">Expert Faculty</h4>
+        <p class="text-sm text-gray-600">50+ dedicated teachers</p>
+      </div>
+      <div class="text-center">
+        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-3">
+          <i class="fas fa-trophy text-white"></i>
+        </div>
+        <h4 class="font-semibold text-gray-800">95% Results</h4>
+        <p class="text-sm text-gray-600">Consistent excellence</p>
+      </div>
+      <div class="text-center">
+        <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-3">
+          <i class="fas fa-flask text-white"></i>
+        </div>
+        <h4 class="font-semibold text-gray-800">Modern Labs</h4>
+        <p class="text-sm text-gray-600">Advanced facilities</p>
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- Custom CSS for Timeline Animations -->
+<style>
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(-2deg); }
+  66% { transform: translateY(-8px) rotate(2deg); }
+}
+
+@keyframes fade-in-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slide-in-left {
+  from { 
+    opacity: 0; 
+    transform: translateX(-50px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes slide-in-right {
+  from { 
+    opacity: 0; 
+    transform: translateX(50px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+.animate-float-slow { 
+  animation: float-slow 8s ease-in-out infinite; 
+}
+
+.animate-fade-in-up { 
+  animation: fade-in-up 1s ease-out; 
+}
+
+.animate-slide-in-left { 
+  animation: slide-in-left 0.8s ease-out; 
+}
+
+.animate-slide-in-right { 
+  animation: slide-in-right 0.8s ease-out; 
+}
+
+/* Timeline item hover effects */
+.timeline-item {
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.timeline-item:nth-child(1) { animation-delay: 0.2s; }
+.timeline-item:nth-child(2) { animation-delay: 0.4s; }
+.timeline-item:nth-child(3) { animation-delay: 0.6s; }
+.timeline-item:nth-child(4) { animation-delay: 0.8s; }
+.timeline-item:nth-child(5) { animation-delay: 1s; }
+
+/* Enhanced hover effects for timeline cards */
+.timeline-item .group:hover {
+  transform: scale(1.05) translateY(-8px) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Timeline connector dots animation */
+.timeline-item .group:hover .absolute {
+  transform: scale(1.5) translateY(-50%) !important;
+}
+
+/* Stagger animation for timeline items */
+@keyframes stagger-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Intersection Observer for scroll animations */
+.timeline-item {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced particle effects */
+.animate-float-slow {
+  transition: all 0.3s ease;
+}
+
+/* Timeline line glow effect */
+.timeline-item:hover ~ .timeline-item .absolute {
+  box-shadow: 0 0 20px rgba(147, 51, 234, 0.5);
+}
+</style>
+
+<!-- JavaScript for scroll animations -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Intersection Observer for timeline animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateX(0)';
+        }, index * 100);
+      }
+    });
+  }, observerOptions);
+
+  // Observe all timeline items
+  document.querySelectorAll('.timeline-item').forEach(item => {
+    item.style.opacity = '0';
+    item.style.transform = item.classList.contains('animate-slide-in-left') ? 'translateX(-50px)' : 'translateX(50px)';
+    observer.observe(item);
+  });
+
+  // Parallax effect for background particles
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const particles = document.querySelectorAll('.animate-float-slow');
+    
+    particles.forEach((particle, index) => {
+      const speed = 0.2 + (index * 0.1);
+      particle.style.transform = `translateY(${scrolled * speed}px)`;
+    });
+  });
+
+  // Timeline progress indicator
+  const timelineLine = document.querySelector('.bg-gradient-to-b');
+  if (timelineLine) {
+    window.addEventListener('scroll', () => {
+      const timelineSection = document.querySelector('.timeline-item').closest('.relative');
+      const rect = timelineSection.getBoundingClientRect();
+      const scrollProgress = Math.max(0, Math.min(1, -rect.top / (rect.height - window.innerHeight)));
+      
+      timelineLine.style.background = `linear-gradient(to bottom, 
+        rgba(147, 51, 234, ${0.3 + scrollProgress * 0.7}) 0%, 
+        rgba(59, 130, 246, ${0.3 + scrollProgress * 0.7}) 50%, 
+        rgba(236, 72, 153, ${0.3 + scrollProgress * 0.7}) 100%)`;
+    });
+  }
+});
+</script>
+
 {% endblock %}

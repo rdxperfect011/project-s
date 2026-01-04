@@ -1,19 +1,126 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="text-2xl font-bold text-blue-700 mb-4">Contact Us</h2>
-<form method="post" class="bg-white p-6 shadow-md rounded-lg space-y-4">
-  <div>
-    <label class="block font-medium">Your Name</label>
-    <input name="name" class="w-full border rounded p-2" required>
+<div class="max-w-6xl mx-auto">
+  <!-- Header Section -->
+  <div class="text-center mb-12">
+    <h2 class="text-4xl font-bold text-blue-700 mb-4">Contact Us</h2>
+    <div class="w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto rounded-full"></div>
   </div>
-  <div>
-    <label class="block font-medium">Email</label>
-    <input name="email" type="email" class="w-full border rounded p-2" required>
+
+  <div class="grid md:grid-cols-2 gap-8">
+    <!-- Contact Form -->
+    <div class="bg-white shadow-lg rounded-lg p-8">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-6">Send us a Message</h3>
+      <form method="post" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
+          <input name="name" type="text" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <input name="email" type="email" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+          <input name="phone" type="tel" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="+91 12345 67890">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+          <select name="subject" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+            <option value="">Select a subject</option>
+            <option value="admission">Admission Inquiry</option>
+            <option value="fee">Fee Related</option>
+            <option value="academic">Academic Information</option>
+            <option value="general">General Inquiry</option>
+            <option value="complaint">Complaint</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+          <textarea name="message" rows="4" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required></textarea>
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105">
+          Send Message
+        </button>
+      </form>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="space-y-6">
+      <!-- Quick Contact Info -->
+      <div class="bg-white shadow-lg rounded-lg p-8">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Get in Touch</h3>
+        <div class="space-y-4">
+          <div class="flex items-start space-x-4">
+            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-map-marker-alt text-blue-600 text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-800">Address</h4>
+              <p class="text-gray-600">Lower Subash Nagar, Jammu, India</p>
+              <p class="text-sm text-gray-500">Near City Center, Landmark Area</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start space-x-4">
+            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-phone text-green-600 text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-800">Phone</h4>
+              <p class="text-gray-600">+91 9419280024</p>
+              <p class="text-sm text-gray-500">Mon-Fri: 8AM-4PM</p>
+            </div>
+          </div>
+          
+          <div class="flex items-start space-x-4">
+            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-envelope text-purple-600 text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-800">Email</h4>
+              <p class="text-gray-600">navyughrsecschool@gmail.com</p>
+              <p class="text-sm text-gray-500">info@navyug.edu</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Office Hours -->
+      <div class="bg-gradient-to-br from-blue-50 to-purple-50 shadow-lg rounded-lg p-8">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Office Hours</h3>
+        <div class="space-y-3">
+          <div class="flex justify-between">
+            <span class="font-medium text-gray-700">Monday - Friday</span>
+            <span class="text-gray-600">8:00 AM - 4:00 PM</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="font-medium text-gray-700">Saturday</span>
+            <span class="text-gray-600">9:00 AM - 1:00 PM</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="font-medium text-gray-700">Sunday</span>
+            <span class="text-gray-600">Closed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="bg-white shadow-lg rounded-lg p-8">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Quick Actions</h3>
+        <div class="space-y-3">
+          <a href="tel:+919419280024" class="block w-full text-center bg-green-500 text-white px-4 py-3 rounded-lg hover:bg-green-600 transition-colors">
+            <i class="fas fa-phone mr-2"></i>Call Us Now
+          </a>
+          <a href="mailto:navyughrsecschool@gmail.com" class="block w-full text-center bg-purple-500 text-white px-4 py-3 rounded-lg hover:bg-purple-600 transition-colors">
+            <i class="fas fa-envelope mr-2"></i>Send Email
+          </a>
+          <a href="https://maps.app.goo.gl/6QRn1R3TgDHziTz29" target="_blank" class="block w-full text-center bg-blue-500 text-white px-4 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+            <i class="fas fa-directions mr-2"></i>Get Directions
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
-  <div>
-    <label class="block font-medium">Message</label>
-    <textarea name="message" rows="4" class="w-full border rounded p-2" required></textarea>
-  </div>
-  <button class="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800">Send Message</button>
-</form>
+</div>
 {% endblock %}

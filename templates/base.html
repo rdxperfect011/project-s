@@ -163,7 +163,7 @@
   </style>
 </head>
 
-<body class="text-gray-900">
+<body class="text-gray-700">
 
 <!-- ======================= NAVBAR ======================= -->
 <header id="navbar" class="fixed w-full top-0 left-0 glass text-white shadow-xl z-50 nav-visible transition-all duration-500">
@@ -174,7 +174,7 @@
         <img src="https://img.icons8.com/color/48/school.png" alt="Logo" class="w-10 h-10 transition-transform duration-300 group-hover:rotate-12">
         <div class="absolute inset-0 bg-white/20 rounded-full blur-xl scale-150 -z-10"></div>
       </div>
-      <span class="font-extrabold text-2xl tracking-wide bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">Nav Yug H.S. School</span>
+      <span class="font-extrabold text-2xl tracking-wide bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">Nav Yug Higher Secondary School</span>
     </a>
 
     <!-- Desktop Links -->
@@ -188,18 +188,21 @@
         <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-yellow-300 to-pink-300 transition-all duration-300 group-hover:w-full"></div>
       </a>
       <a href="{{ url_for('fee_form') }}" class="relative group py-2 transition-all duration-300 hover:text-yellow-300">
-        <span class="relative z-10">Pay Fees</span>
-        <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-yellow-300 to-pink-300 transition-all duration-300 group-hover:w-full"></div>
-      </a>
-      <a href="{{ url_for('payment_history') }}" class="relative group py-2 transition-all duration-300 hover:text-yellow-300">
-        <span class="relative z-10">History</span>
+        <span class="relative z-10">Pay Fee</span>
         <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-yellow-300 to-pink-300 transition-all duration-300 group-hover:w-full"></div>
       </a>
       <a href="{{ url_for('contact') }}" class="relative group py-2 transition-all duration-300 hover:text-yellow-300">
         <span class="relative z-10">Contact</span>
         <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-yellow-300 to-pink-300 transition-all duration-300 group-hover:w-full"></div>
       </a>
-      <a href="{{ url_for('admin_login') }}" class="relative group bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-6 py-2.5 rounded-full font-semibold hover:from-yellow-500 hover:to-orange-500 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/50 hover:scale-105">
+      <a href="https://maps.app.goo.gl/6QRn1R3TgDHziTz29" target="_blank" class="relative group bg-gradient-to-r from-green-400 to-blue-400 text-white px-6 py-2.5 rounded-full font-semibold hover:from-green-500 hover:to-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-green-400/50 hover:scale-105">
+        <span class="relative z-10 flex items-center gap-2">
+          <i class="fas fa-directions text-sm"></i>
+          Get Directions
+        </span>
+        <div class="absolute inset-0 bg-white/20 rounded-full blur-xl scale-150 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      </a>
+      <a href="{{ url_for('admin_login') }}" class="relative group bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-700 px-6 py-2.5 rounded-full font-semibold hover:from-yellow-500 hover:to-orange-500 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/50 hover:scale-105">
         <span class="relative z-10 flex items-center gap-2">
           <i class="fas fa-user-shield text-sm"></i>
           Admin
@@ -227,15 +230,15 @@
       <i class="fas fa-info-circle mr-3"></i>About
     </a>
     <a href="{{ url_for('fee_form') }}" class="block py-3 px-4 rounded-lg hover:bg-white/10 transition-all duration-300 hover:translate-x-2">
-      <i class="fas fa-credit-card mr-3"></i>Pay Fees
-    </a>
-    <a href="{{ url_for('payment_history') }}" class="block py-3 px-4 rounded-lg hover:bg-white/10 transition-all duration-300 hover:translate-x-2">
-      <i class="fas fa-history mr-3"></i>History
+      <i class="fas fa-credit-card mr-3"></i>Pay Fee
     </a>
     <a href="{{ url_for('contact') }}" class="block py-3 px-4 rounded-lg hover:bg-white/10 transition-all duration-300 hover:translate-x-2">
       <i class="fas fa-envelope mr-3"></i>Contact
     </a>
-    <a href="{{ url_for('admin_login') }}" class="block text-center bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-6 py-3 rounded-full font-semibold hover:from-yellow-500 hover:to-orange-500 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/50">
+    <a href="https://maps.app.goo.gl/6QRn1R3TgDHziTz29" target="_blank" class="block bg-gradient-to-r from-green-400 to-blue-400 text-white px-6 py-3 rounded-full font-semibold hover:from-green-500 hover:to-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-green-400/50">
+      <i class="fas fa-directions mr-2"></i>Get Directions
+    </a>
+    <a href="{{ url_for('admin_login') }}" class="block text-center bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-700 px-6 py-3 rounded-full font-semibold hover:from-yellow-500 hover:to-orange-500 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/50">
       <i class="fas fa-user-shield mr-2"></i>Admin Portal
     </a>
   </div>
@@ -364,7 +367,7 @@
       <div class="space-y-4">
         <div class="flex items-center space-x-3">
           <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center">
-            <i class="fas fa-graduation-cap text-gray-900"></i>
+            <i class="fas fa-graduation-cap text-gray-700"></i>
           </div>
           <h3 class="text-2xl font-bold bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">Nav Yug Higher Secondary School</h3>
         </div>
@@ -405,8 +408,8 @@
             </a>
           </li>
           <li>
-            <a href="{{ url_for('fee_form') }}" class="text-gray-300 hover:text-yellow-300 transition-all duration-300 hover:translate-x-2 inline-block">
-              <i class="fas fa-chevron-right mr-2 text-xs"></i>Fee Payment
+            <a href="{{ url_for('parent_login') }}" class="text-gray-300 hover:text-yellow-300 transition-all duration-300 hover:translate-x-2 inline-block">
+              <i class="fas fa-chevron-right mr-2 text-xs"></i>Parent Portal
             </a>
           </li>
           <li>
@@ -429,7 +432,7 @@
               <i class="fas fa-map-marker-alt text-yellow-300"></i>
             </div>
             <div>
-              <p class="text-gray-300">M.P., India</p>
+              <p class="text-gray-300">Lower Subash Nagar, Jammu, India</p>
               <p class="text-gray-400 text-sm">Near City Center, Landmark Area</p>
             </div>
           </div>
@@ -438,7 +441,7 @@
               <i class="fas fa-envelope text-yellow-300"></i>
             </div>
             <div>
-              <p class="text-gray-300">navyugschool@example.com</p>
+              <p class="text-gray-300">navyughrsecschool@gmail.com</p>
               <p class="text-gray-400 text-sm">info@navyug.edu</p>
             </div>
           </div>
@@ -447,7 +450,7 @@
               <i class="fas fa-phone text-yellow-300"></i>
             </div>
             <div>
-              <p class="text-gray-300">+91 12345 67890</p>
+              <p class="text-gray-300">+91 9419280024</p>
               <p class="text-gray-400 text-sm">Mon-Fri: 8AM-4PM</p>
             </div>
           </div>
