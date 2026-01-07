@@ -183,6 +183,22 @@
   </div>
 </div>
 
+<!-- Student Details Modal -->
+<div id="studentDetailsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+  <div class="glass rounded-3xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto border-2 border-white/10">
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-2xl font-bold text-white">Student Details</h3>
+      <button onclick="closeStudentDetails()" class="text-white/60 hover:text-white transition-colors">
+        <i class="fas fa-times text-2xl"></i>
+      </button>
+    </div>
+    
+    <div id="studentDetailsContent">
+      <!-- Content will be loaded here -->
+    </div>
+  </div>
+</div>
+
 <script>
 function filterStudents() {
   const selectedClass = document.getElementById('classFilter').value;
@@ -196,8 +212,126 @@ function filterStudents() {
 }
 
 function showStudentDetails(studentId) {
-  // This could open a modal with more details
-  alert('Student details feature coming soon!');
+  fetch(`/admin/student_details/${studentId}`)
+    .then(response => response.json())
+    .then(data => {
+      const content = document.getElementById('studentDetailsContent');
+      
+      let feePaymentsHtml = '';
+      if (data.fee_payments && data.fee_payments.length > 0) {
+        feePaymentsHtml = `
+          <div class="mt-6">
+            <h4 class="text-xl font-bold text-white mb-4">Fee Payment History</h4>
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead>
+                  <tr class="border-b border-white/20">
+                    <th class="text-left p-3 text-white font-semibold">Month</th>
+                    <th class="text-left p-3 text-white font-semibold">Amount</th>
+                    <th class="text-left p-3 text-white font-semibold">Status</th>
+                    <th class="text-left p-3 text-white font-semibold">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${data.fee_payments.map(payment => `
+                    <tr class="border-b border-white/10">
+                      <td class="p-3 text-white/90">${payment.payment_month}</td>
+                      <td class="p-3 text-white/90">₹${payment.amount}</td>
+                      <td class="p-3">
+                        <span class="px-2 py-1 rounded-full text-sm ${payment.paid ? 'bg-green-500/20 text-green-300 border border-green-400/30' : 'bg-yellow-500/20 text-yellow-300 border border-yellow-400/30'}">
+                          ${payment.paid ? 'Paid' : 'Pending'}
+                        </span>
+                      </td>
+                      <td class="p-3 text-white/90">${payment.submitted_at}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      } else {
+        feePaymentsHtml = `
+          <div class="mt-6">
+            <h4 class="text-xl font-bold text-white mb-4">Fee Payment History</h4>
+            <div class="text-center py-8">
+              <i class="fas fa-receipt text-4xl text-white/30 mb-3"></i>
+              <p class="text-white/60">No fee payment records found</p>
+            </div>
+          </div>
+        `;
+      }
+      
+      content.innerHTML = `
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div class="bg-white/5 rounded-lg p-4 border border-white/10">
+              <h4 class="text-lg font-semibold text-white mb-3">Personal Information</h4>
+              <div class="space-y-2">
+                <div class="flex justify-between">
+                  <span class="text-white/60">Full Name:</span>
+                  <span class="text-white font-medium">${data.name}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-white/60">Admission No:</span>
+                  <span class="text-white font-medium">${data.admission_number}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-white/60">Roll No:</span>
+                  <span class="text-white font-medium">${data.roll_no}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-white/60">Admission Date:</span>
+                  <span class="text-white font-medium">${data.admission_date}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="bg-white/5 rounded-lg p-4 border border-white/10">
+              <h4 class="text-lg font-semibold text-white mb-3">Academic Information</h4>
+              <div class="space-y-2">
+                <div class="flex justify-between">
+                  <span class="text-white/60">Class:</span>
+                  <span class="text-white font-medium">${data.student_class}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-white/60">Section:</span>
+                  <span class="text-white font-medium">${data.section}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white/5 rounded-lg p-4 border border-white/10">
+              <h4 class="text-lg font-semibold text-white mb-3">Parent Information</h4>
+              <div class="space-y-2">
+                <div class="flex justify-between">
+                  <span class="text-white/60">Parent Name:</span>
+                  <span class="text-white font-medium">${data.parent_name}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-white/60">Phone:</span>
+                  <span class="text-white font-medium">${data.parent_phone}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        ${feePaymentsHtml}
+      `;
+      
+      document.getElementById('studentDetailsModal').classList.remove('hidden');
+    })
+    .catch(error => {
+      console.error('Error fetching student details:', error);
+      alert('Error loading student details. Please try again.');
+    });
+}
+
+function closeStudentDetails() {
+  document.getElementById('studentDetailsModal').classList.add('hidden');
 }
 </script>
 {% endblock %}

@@ -1,6 +1,6 @@
 import os
 from datetime import datetime, date
-from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, session
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, session, jsonify
 from flask import Response
 import csv
 from io import StringIO
@@ -524,6 +524,42 @@ def admin_delete_student(student_id):
     db.session.commit()
     flash(f"Deleted student {student.name}.", "info")
     return redirect(url_for("admin_students"))
+
+@app.route("/admin/student_details/<int:student_id>")
+def admin_student_details(student_id):
+    if not admin_logged_in():
+        return redirect(url_for("admin_login"))
+    
+    student = Student.query.get_or_404(student_id)
+    
+    # Get fee payment history for this student
+    fee_payments = FeePayment.query.filter_by(
+        roll_no=student.roll_no,
+        student_class=student.student_class
+    ).order_by(FeePayment.submitted_at.desc()).all()
+    
+    student_data = {
+        'id': student.id,
+        'admission_number': student.admission_number,
+        'roll_no': student.roll_no,
+        'name': student.name,
+        'student_class': student.student_class,
+        'section': student.section,
+        'parent_name': student.parent_name,
+        'parent_phone': student.parent_phone,
+        'admission_date': student.admission_date.strftime('%d-%m-%Y') if student.admission_date else 'N/A',
+        'fee_payments': [
+            {
+                'payment_month': payment.payment_month,
+                'amount': payment.amount,
+                'paid': payment.paid,
+                'submitted_at': payment.submitted_at.strftime('%d-%m-%Y %H:%M') if payment.submitted_at else 'N/A',
+                'receipt_filename': payment.receipt_filename
+            } for payment in fee_payments
+        ]
+    }
+    
+    return jsonify(student_data)
 
 @app.route("/admin/visits")
 def admin_visits():
