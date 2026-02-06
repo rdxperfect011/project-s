@@ -43,8 +43,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 For any questions or feedback, please reach out:
-- **Email**: example@school.com
-- **Phone**: +1 (555) 123-4567
+- **Email**: tanmayjamwal@icloud.com
 
 ## Acknowledgments
 - Inspiration from various educational websites.
